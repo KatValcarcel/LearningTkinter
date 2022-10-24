@@ -18,6 +18,18 @@ anio=[]
 poblacion=[]
 refAnio=[]
 refPoblacion=[]
+
+def graficar():
+    global l2, l3, l4
+    l2.destroy()
+    l3.destroy()
+    l4.destroy()
+    rvalores=[]
+    rp=0
+    pf=0
+    l2 = Label(mainframe,text=f'\u007B -{b} ± \u221A[(-{b})² - 4×{a}×{c}] \u007D ÷ \u007B2×{a}\u007D',fg='#000',bg='#DDD',font=('Helvetica', 15, 'bold'))
+    l2.place(x=185,y=115)
+
 def guardarData():
     for x in refAnio:
         anio.append(x.get())
@@ -27,6 +39,8 @@ def guardarData():
 
     print(f'Anio: {anio}')
     print(f'Poblacion: {poblacion}')
+
+    graficar()
 
 def EnterNumData():
     numData = e_data.get()
@@ -47,7 +61,7 @@ def EnterNumData():
     label_anio.grid(column=0,row=0, sticky=(W,N,E,S))
     label_poblacion = Label(mainframe, text='Población',font='Arial 20')
     label_poblacion.grid(column=1,row=0, sticky=(W,N,E,S))
-    label_metodo1 = Label(mainframe, text='Método Aritmético', font='Arial 25')
+    label_metodo1 = Label(mainframe, text='Método Aritmético', font='Arial 25 bold')
     label_metodo1.grid(column=2,row=1, columnspan=2, sticky=(W,N,E,S))
     label_tiempo = Label(mainframe, text='Tiempo', font='Arial 20')
     label_tiempo.grid(column=2,row=0, sticky=(W,N,E,S))
