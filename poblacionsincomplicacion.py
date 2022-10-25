@@ -12,8 +12,8 @@ root=Tk()
 root.title('Población futura')
 root.geometry('900x700+450+150')
 
-anio=[]
-poblacion=[]
+anios=[]
+poblaciones=[]
 refAnio=[]
 refPoblacion=[]
 
@@ -23,21 +23,30 @@ def graficar():
         rp=0
         pf=0
         # no me juzguen
-        l1 = Label(root, text='r=', font='Arial 15')
-        l1.place(x=340, y=135)
-        l2 = Label(root, text='(Población actual - Población anterior)', font='Arial 15 underline')
+        l1 = Label(root, text='r =', font='Arial 15 bold')
+        l1.place(x=310, y=140)
+        l2 = Label(root, text='(Población actual - Población anterior)', font='Arial 15 underline bold')
         l2.place(x=350, y=130)
-        l3 = Label(root, text='   (Tiempo actual - Tiempo anterior)', font='Arial 15')
+        l3 = Label(root, text='   (Tiempo actual - Tiempo anterior)', font='Arial 15 bold')
         l3.place(x=350, y=150)
 
         ejey=170
-        print(len(anio))
-        l1 = Label(root, text='r =', font='Arial 15')
-        l1.place(x=340, y=195)
-        l2 = Label(root, text='(Población actual - Población anterior)', font='Arial 15 underline')
-        l2.place(x=350, y=190)
-        l3 = Label(root, text='   (Tiempo actual - Tiempo anterior)', font='Arial 15')
-        l3.place(x=350, y=210)
+        # TODO: limpiar cálculo, ref labels
+        #TODO: barra lateral en ventana
+        for i in range(len(anios)-1):
+            print('ejey: ', ejey)
+            l1 = Label(root, text=f'r{i+1} = ', font='Arial 15')
+            l1.place(x=310, y=ejey+30)
+            l2 = Label(root, text=f'{poblaciones[i+1]} - {poblaciones[i]}', font='Arial 15 underline')
+            l2.place(x=350, y=ejey+20)
+            l3 = Label(root, text=f'{anios[i+1]} - {anios[i]}', font='Arial 15')
+            l3.place(x=350, y=ejey+40)
+            r=(float(poblaciones[i+1]) - float(poblaciones[i]))/(float(anios[i+1]) - float(anios[i]))
+            rRound=format(round(r, 3))
+            rlabel=Label(root, text=f'= {rRound}', font='Arial 15')
+            rlabel.place(x=450, y=ejey+30)
+            rvalores.append(rRound)
+            ejey=ejey+50
 
     except:
         messagebox.showerror(message='Algo salió mal',title="Error")
@@ -45,15 +54,15 @@ def graficar():
 
 
 def guardarData():
-    anio.clear()
-    poblacion.clear()
+    anios.clear()
+    poblaciones.clear()
     for x in refAnio:
-        anio.append(x.get())
+        anios.append(x.get())
     
     for y in refPoblacion:
-        poblacion.append(y.get())
-    print(f'Anio: {anio}')
-    print(f'Poblacion: {poblacion}')
+        poblaciones.append(y.get())
+    print(f'Anio: {anios}')
+    print(f'Poblacion: {poblaciones}')
 
     graficar()
 
