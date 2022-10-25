@@ -17,16 +17,12 @@ poblaciones=[]
 refAnio=[]
 refPoblacion=[]
 refLbls=[]
-meto_aritmetico=float()
-meto_inter=float()
-meto_geom=float()
 tiempo=0
 
 def graficar():
     try:
         rvalores=[]
-        rp=0
-        pf=0
+        tiempo=int(e_tiempo.get())
         # no me juzguen
         l1 = Label(root, text='r =', font='Arial 15 bold')
         l1.place(x=310, y=140)
@@ -42,7 +38,6 @@ def graficar():
                 ref.destroy()
         
             refLbls.clear()
-            refAnio.clear()
             rvalores.clear()
         #TODO: barra lateral en ventana
 
@@ -93,11 +88,27 @@ def graficar():
         refLbls.append(l10)
 
         # respuesta 
-        rp=format(round(sum(rvalores)/len(rvalores), 3))
+        rp=float(format(round(sum(rvalores)/len(rvalores), 3)))
         rlabel=Label(root, text=f'= {rp}', font='Arial 15')
         rlabel.place(x=ejex, y=ejey+30)
         refLbls.append(rlabel)
-        # TODO: Pf
+
+        # Pf
+        Pf_ma=poblaciones[-1]+rp*tiempo 
+        print(f'Pf Método Aritmético: {Pf_ma}')
+        rlabel=Label(root, text='Pf= Pa + r * t', font='Arial 15 bold')
+        rlabel.place(x=650, y=200)
+        refLbls.append(rlabel)
+
+        rlabel1=Label(root, text=f'Pf= {poblaciones[-1]} + {rp} * {tiempo} = {Pf_ma}', font='Arial 15')
+        rlabel1.place(x=630, y=250)
+        refLbls.append(rlabel1)      
+
+        rlabel1=Label(root, text=f'Pf= {int(Pf_ma)}', font='Arial 15 bold')
+        rlabel1.place(x=630, y=290)
+        refLbls.append(rlabel1)         
+
+
     except:
         messagebox.showerror(message='Algo salió mal',title="Error")
 
@@ -105,28 +116,28 @@ def graficar():
 
 def guardarData():
     # bloquear
-    for ref in refAnio:
-        ref.config(state= "disabled")
-    for refP in refPoblacion:
-        refP.config(state= "disabled")
-    e_tiempo.config(state='disabled')
+    # for ref in refAnio:
+    #     ref.config(state= "disabled")
+    # for refP in refPoblacion:
+    #     refP.config(state= "disabled")
+    # e_tiempo.config(state='disabled')
 
     anios.clear()
     poblaciones.clear()
 
     for x in refAnio:
-        anios.append(x.get())
+        anios.append(int(x.get()))
     
     for y in refPoblacion:
-        poblaciones.append(y.get())
+        poblaciones.append(int(y.get()))
     print(f'Anio: {anios}')
     print(f'Poblacion: {poblaciones}')
 
     graficar()
 
 def EnterNumData():
-    e_tiempo.config(state='normal')
-    numData = e_data.get()
+    # e_tiempo.config(state='normal')
+    numData = int(e_data.get())
     if(e_tiempo.get()==''):
         messagebox.showinfo(title='Tiempo', message='Recuerda colocar un periodo antes de presionar el botón calcular')
     label_anio = Label(root, text='Año', font='Arial 20')
@@ -147,7 +158,7 @@ def EnterNumData():
         refPoblacion.clear()
         refAnio.clear()
 
-    for j in range(int(numData)):
+    for j in range(numData):
         e_anio=Entry(root, width=10)
         e_anio.place(x=20, y=ejey+30*j+1)
         e_poblacion=Entry(root, width=10)
