@@ -39,7 +39,6 @@ def graficar():
         
             refLbls.clear()
             rvalores.clear()
-        #TODO: barra lateral en ventana
 
         for i in range(len(anios)-1):
             l4 = Label(root, text=f'r{i+1} = ', font='Arial 15')
@@ -107,7 +106,6 @@ def graficar():
         rlabel1=Label(root, text=f'Pf= {int(Pf_ma)}', font='Arial 15 bold')
         rlabel1.place(x=630, y=290)
         refLbls.append(rlabel1)         
-
 
     except:
         messagebox.showerror(message='Algo salió mal',title="Error")
