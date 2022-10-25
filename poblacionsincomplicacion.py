@@ -36,7 +36,7 @@ def graficar():
         l3.place(x=350, y=150)
 
         ejey=170
-        # TODO: limpiar cálculo, ref labels
+        # limpiar cálculo, ref labels
         if(len(refLbls)!=0):
             for ref in refLbls:
                 ref.destroy()
@@ -47,23 +47,57 @@ def graficar():
         #TODO: barra lateral en ventana
 
         for i in range(len(anios)-1):
-            # print('ejey: ', ejey)
             l4 = Label(root, text=f'r{i+1} = ', font='Arial 15')
             l4.place(x=310, y=ejey+30)
             refLbls.append(l4)
+            # numerador
             l5 = Label(root, text=f'{poblaciones[i+1]} - {poblaciones[i]}', font='Arial 15 underline')
             l5.place(x=350, y=ejey+20)
             refLbls.append(l5)
+
+            # denominador
             l6 = Label(root, text=f'{anios[i+1]} - {anios[i]}', font='Arial 15')
             l6.place(x=350, y=ejey+40)
             refLbls.append(l6)
+
+            # respuesta 
             r=(float(poblaciones[i+1]) - float(poblaciones[i]))/(float(anios[i+1]) - float(anios[i]))
             rRound=format(round(r, 3))
             rlabel=Label(root, text=f'= {rRound}', font='Arial 15')
             rlabel.place(x=450, y=ejey+30)
             refLbls.append(rlabel)
-            rvalores.append(rRound)
+            rvalores.append(float(rRound))
+
             ejey=ejey+50
+        print(f'rvalores: {rvalores}')
+
+        # graficando rp 
+        ejex=350
+        l7 = Label(root, text=f'rp = ', font='Arial 15')
+        l7.place(x=310, y=ejey+30)
+        refLbls.append(l7)
+
+        for i in range(len(rvalores)):
+            l8 = Label(root, text=f'{rvalores[i]}', font='Arial 15 underline')
+            l8.place(x=ejex, y=ejey+20)
+            refLbls.append(l8) 
+            if(i+1<len(rvalores)):
+                l9 = Label(root, text='+', font='Arial 15 underline')
+                l9.place(x=ejex+50, y=ejey+20)
+                refLbls.append(l9)
+            ejex=ejex+60 
+
+        # denominador
+        l10 = Label(root, text=f'{len(rvalores)}', font='Arial 15')
+        l10.place(x=150+ejex/2, y=ejey+40)
+        refLbls.append(l10)
+
+        # respuesta 
+        rp=format(round(sum(rvalores)/len(rvalores), 3))
+        rlabel=Label(root, text=f'= {rp}', font='Arial 15')
+        rlabel.place(x=ejex, y=ejey+30)
+        refLbls.append(rlabel)
+        # TODO: Pf
     except:
         messagebox.showerror(message='Algo salió mal',title="Error")
 
