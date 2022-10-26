@@ -6,7 +6,7 @@ from tkinter.ttk import *
 from turtle import width
 from tkinter import messagebox
 import math
-from math import floor
+from math import ceil
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
@@ -23,26 +23,63 @@ refAnio=[]
 refPoblacion=[]
 refLbls=[]
 
+
+def abrirMetodos():
+    anioStr = list(map(str, anios))
+
+    pobArit = poblaciones
+    del pobArit[-1]
+    pobArit.append(int(Pf_ma))
+    print(f'Población Arit: {pobArit}')
+
+    pobInte = poblaciones
+    del pobInte[-1]
+    pobInte.append(int(Pf_ma))
+    print(f'Población Interés: {pobInte}')
+
+    pobGeo = poblaciones
+    del pobGeo[-1]
+    pobGeo.append(int(Pf_ma))
+    print(f'Población Geométrico: {pobGeo}')
+
+    # GRAFICA 
+    x = np.arange(len(anioStr))  # the label locations
+    width = 0.20  # the width of the bars
+
+    fig, ax = plt.subplots()
+    rects1 = ax.bar(x - width, pobArit, width, label='Mét. Aritmético')
+    rects2 = ax.bar(x, pobInte, width, label='Mét. Int. Simple.')
+    rects3 = ax.bar(x + width, pobGeo, width, label='Mét. Geográfico.')
+
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel('Población')
+    ax.set_title(f'Población en {e_tiempo.get()} años según los métodos.')
+    ax.set_xticks(x, anioStr)
+    ax.legend()
+
+    #TODO: arreglar los labels de las barras
+    ax.bar_label(rects1, padding=3)
+    ax.bar_label(rects2, padding=3)
+    ax.bar_label(rects3, padding=3)
+
+    fig.tight_layout()
+
+    plt.show()
+
+
 def AbrirGrafica():
 
     anioStr = list(map(str, anios))
     plt.rcdefaults()
-    # fig, ax = plt.subplots()
-    # y_pos = np.arange(len(anioStr))
 
-    # ax.bar(y_pos, poblaciones, align='center')
-    # ax.set_yticks(y_pos, labels=anioStr)
-    # ax.invert_yaxis() 
-    # ax.set_xlabel('Población')
-
-    # fig.suptitle(f'Población en {e_tiempo.get()} años')
-
-    fig, axs = plt.subplots(1, 2, figsize=(9, 3), sharey=True)
-    # axs[0].bar(anios, poblaciones)
-    axs[0].scatter(anioStr, poblaciones)
-    axs[1].plot(anioStr, poblaciones)
+    fig, axs = plt.subplots(1, 3, figsize=(9, 4), sharey=True)
+    axs[0].bar(anioStr, poblaciones)
+    axs[1].scatter(anioStr, poblaciones)
+    axs[2].plot(anioStr, poblaciones)
     fig.suptitle(f'Población en {e_tiempo.get()} años')
     plt.show()
+    # abrirMetodos()
+
 
 def CalcularQp():
     dotacion=int(eDot.get())
@@ -105,7 +142,7 @@ def graficar():
         mi = interes()
         mg = geometrico()
         global Pf
-        Pf = floor((mi+mg)/2)
+        Pf = ceil((mi+mg)/2)
         anios.append(anios[-1]+int(e_tiempo.get()))
         poblaciones.append(Pf)
 
@@ -202,12 +239,12 @@ e_data=Entry(root, width=20)
 e_data.place(x=300, y=25)
 botonGenerar = Button(root, text="Generar Espacios", command=EnterNumData)
 botonGenerar.place(x=500, y=25)
-# botonLimpiar = Button(root, text="Borrar", command=borrar)
-# botonLimpiar.place(x=600, y=25)
 
 l_tiempo = Label(root, text='Tiempo')
 l_tiempo.place(x=150, y=50)
-e_tiempo=Entry(root, width=20)
+l_tiempo2 = Label(root, text='años')
+l_tiempo2.place(x=410, y=55)
+e_tiempo=Entry(root, width=10)
 e_tiempo.place(x=300, y=50)
 
 
