@@ -24,15 +24,22 @@ refPoblacion=[]
 refLbls=[]
 
 def AbrirGrafica():
-    # plt.bar(poblaciones, 100)
-    # plt.show()
+    # fig, axs = plt.subplots(1, 2, figsize=(9, 3), sharey=True)
+    # # axs[0].bar(anios, poblaciones)
+    # axs[0].scatter(anios, poblaciones)
+    # axs[1].plot(anios, poblaciones)
 
-    fig, axs = plt.subplots(1, 2, figsize=(9, 3), sharey=True)
-    # axs[0].bar(anios, poblaciones)
-    axs[0].scatter(anios, poblaciones)
-    axs[1].plot(anios, poblaciones)
+    anioStr = list(map(str, anios))
+    plt.rcdefaults()
+    fig, ax = plt.subplots()
+    y_pos = np.arange(len(anioStr))
+
+    ax.barh(y_pos, poblaciones, align='center')
+    ax.set_yticks(y_pos, labels=anioStr)
+    ax.invert_yaxis() 
+    ax.set_xlabel('Población')
+
     fig.suptitle(f'Población en {e_tiempo.get()} años')
-    plt.title('Gráfica')
     plt.show()
 
 def CalcularQp():
@@ -102,6 +109,7 @@ def graficar():
 
         print(f'Anio: {anios}')
         print(f'Poblacion: {poblaciones}')
+        
 
         Lbl1 = Label(root, text=f'Método Aritmético:', font='Arial 17')
         Lbl1.place(x=310, y=130)
