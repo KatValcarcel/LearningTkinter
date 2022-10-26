@@ -6,13 +6,16 @@ from tkinter.ttk import *
 from turtle import width
 from tkinter import messagebox
 import math
-
+from math import floor
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import numpy as np
 # import numpy as np
 
 # --inicio--
 root=Tk()
 root.title('Población futura')
-root.geometry('1300x950')
+root.geometry('700x450+450+150')
 
 anios=[]
 poblaciones=[]
@@ -20,10 +23,22 @@ refAnio=[]
 refPoblacion=[]
 refLbls=[]
 
+def AbrirGrafica():
+    # plt.bar(poblaciones, 100)
+    # plt.show()
+
+    fig, axs = plt.subplots(1, 2, figsize=(9, 3), sharey=True)
+    # axs[0].bar(anios, poblaciones)
+    axs[0].scatter(anios, poblaciones)
+    axs[1].plot(anios, poblaciones)
+    fig.suptitle(f'Población en {e_tiempo.get()} años')
+    plt.title('Gráfica')
+    plt.show()
+
 def CalcularQp():
     dotacion=int(eDot.get())
     ldotacion = Label(root, text=f'Qp = {round((((Pf_mi+Pf_mg)/2)*dotacion)/86400,2)} l/s', font='Arial 17 bold')
-    ldotacion.place(x=415, y=300)
+    ldotacion.place(x=415, y=330)
     refLbls.append(ldotacion)
 
 def aritmetico():
@@ -80,6 +95,14 @@ def graficar():
         ma = aritmetico()
         mi = interes()
         mg = geometrico()
+        global Pf
+        Pf = floor((mi+mg)/2)
+        anios.append(anios[-1]+int(e_tiempo.get()))
+        poblaciones.append(Pf)
+
+        print(f'Anio: {anios}')
+        print(f'Poblacion: {poblaciones}')
+
         Lbl1 = Label(root, text=f'Método Aritmético:', font='Arial 17')
         Lbl1.place(x=310, y=130)
         lma = Label(root, text=f'Pf= {int(ma)} habitantes', font='Arial 17 bold')
@@ -93,17 +116,20 @@ def graficar():
         lmg = Label(root, text=f'Pf= {int(mg)} habitantes', font='Arial 17 bold')
         lmg.place(x=500, y=190)
 
-        lPf = Label(root, text=f'Pf= {int((mi+mg)/2)} habitantes', font='Arial 17 bold')
+        lPf = Label(root, text=f'Pf= {Pf} habitantes', font='Arial 17 bold')
         lPf.place(x=310, y=220)
+        btnGrafica = Button(root, text="Abrir Gráfica", width=10, command=AbrirGrafica)
+        btnGrafica.place(x=500, y=220)
 
         lDot = Label(root, text=f'Dotación', font='Arial 17')
-        lDot.place(x=310, y=250)
+        lDot.place(x=310, y=280)
         global eDot
         eDot = Entry(root, width=10)
-        eDot.place(x=400, y=250)
+        eDot.place(x=400, y=280)
         bDot = Button(root, text="Calcular Qp", width=10, command=CalcularQp)
-        bDot.place(x=520, y=250)
+        bDot.place(x=520, y=280)
 
+        refLbls.append(btnGrafica)
         refLbls.append(lma)
         refLbls.append(lmi)
         refLbls.append(lmg)
@@ -123,9 +149,6 @@ def guardarData():
     
     for y in refPoblacion:
         poblaciones.append(int(y.get()))
-
-    print(f'Anio: {anios}')
-    print(f'Poblacion: {poblaciones}')
 
     graficar()
 
@@ -161,6 +184,7 @@ def EnterNumData():
             btnCalcular = Button(root, text="Calcular", width=10, command=guardarData)
             btnCalcular.place(x=65, y=ejey+(30*numData))
             refLbls.append(btnCalcular)
+            
 
 l_datos = Label(root, text='¿Cuántos datos tiene?')
 l_datos.place(x=150,y=25)
