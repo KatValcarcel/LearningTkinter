@@ -24,21 +24,23 @@ refPoblacion=[]
 refLbls=[]
 
 def AbrirGrafica():
-    # fig, axs = plt.subplots(1, 2, figsize=(9, 3), sharey=True)
-    # # axs[0].bar(anios, poblaciones)
-    # axs[0].scatter(anios, poblaciones)
-    # axs[1].plot(anios, poblaciones)
 
     anioStr = list(map(str, anios))
     plt.rcdefaults()
-    fig, ax = plt.subplots()
-    y_pos = np.arange(len(anioStr))
+    # fig, ax = plt.subplots()
+    # y_pos = np.arange(len(anioStr))
 
-    ax.barh(y_pos, poblaciones, align='center')
-    ax.set_yticks(y_pos, labels=anioStr)
-    ax.invert_yaxis() 
-    ax.set_xlabel('Población')
+    # ax.bar(y_pos, poblaciones, align='center')
+    # ax.set_yticks(y_pos, labels=anioStr)
+    # ax.invert_yaxis() 
+    # ax.set_xlabel('Población')
 
+    # fig.suptitle(f'Población en {e_tiempo.get()} años')
+
+    fig, axs = plt.subplots(1, 2, figsize=(9, 3), sharey=True)
+    # axs[0].bar(anios, poblaciones)
+    axs[0].scatter(anioStr, poblaciones)
+    axs[1].plot(anioStr, poblaciones)
     fig.suptitle(f'Población en {e_tiempo.get()} años')
     plt.show()
 
