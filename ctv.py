@@ -3,10 +3,11 @@ from tkinter import ttk
 from tkinter import *
 from tkinter import font
 from tkinter.ttk import *
-import math
 from turtle import width
 from tkinter import messagebox
-from math import floor
+import math
+
+# import numpy as np
 
 # --inicio--
 root=Tk()
@@ -18,6 +19,12 @@ poblaciones=[]
 refAnio=[]
 refPoblacion=[]
 refLbls=[]
+
+def CalcularQp():
+    dotacion=int(eDot.get())
+    ldotacion = Label(root, text=f'Qp = {round((((Pf_mi+Pf_mg)/2)*dotacion)/86400,2)} l/s', font='Arial 17 bold')
+    ldotacion.place(x=415, y=300)
+    refLbls.append(ldotacion)
 
 def aritmetico():
     rvalores=[]
@@ -34,7 +41,6 @@ def aritmetico():
     Pf_ma=round(poblaciones[-1]+rp*tiempo,3)
     print(f'Método Aritmético: {Pf_ma}')
     return Pf_ma
-
 
 def interes():
     rvalores=[]
@@ -60,7 +66,6 @@ def geometrico():
         r=((poblaciones[i+1]/poblaciones[i])**(1/(anios[i+1] - anios[i])))-1
         rRound=round(r, 3)
         rvalores.append(rRound)
-        print(f'r: {r}')
     rp=round(sum(rvalores)/len(rvalores), 3)
 
     # Pf
@@ -77,30 +82,33 @@ def graficar():
         mg = geometrico()
         Lbl1 = Label(root, text=f'Método Aritmético:', font='Arial 17')
         Lbl1.place(x=310, y=130)
-        lma = Label(root, text=f'Pf= {floor(ma)} habitantes', font='Arial 17 bold')
+        lma = Label(root, text=f'Pf= {int(ma)} habitantes', font='Arial 17 bold')
         lma.place(x=500, y=130)
         Lbl1 = Label(root, text=f'Método Interés Simple:', font='Arial 17')
         Lbl1.place(x=310, y=160)
-        lmi = Label(root, text=f'Pf= {floor(mi)} habitantes', font='Arial 17 bold')
+        lmi = Label(root, text=f'Pf= {int(mi)} habitantes', font='Arial 17 bold')
         lmi.place(x=500, y=160)
         Lbl1 = Label(root, text='Método Geométrico: ', font='Arial 17')
         Lbl1.place(x=310, y=190)
-        lmg = Label(root, text=f'Pf= {floor(mg)} habitantes', font='Arial 17 bold')
+        lmg = Label(root, text=f'Pf= {int(mg)} habitantes', font='Arial 17 bold')
         lmg.place(x=500, y=190)
-        lPf = Label(root, text=f'Pf= {floor((mi+mg)/2)} habitantes', font='Arial 17 bold')
-        lPf.place(x=320, y=220)
+
+        lPf = Label(root, text=f'Pf= {int((mi+mg)/2)} habitantes', font='Arial 17 bold')
+        lPf.place(x=310, y=220)
+
+        lDot = Label(root, text=f'Dotación', font='Arial 17')
+        lDot.place(x=310, y=250)
+        global eDot
+        eDot = Entry(root, width=10)
+        eDot.place(x=400, y=250)
+        bDot = Button(root, text="Calcular Qp", width=10, command=CalcularQp)
+        bDot.place(x=520, y=250)
+
         refLbls.append(lma)
         refLbls.append(lmi)
         refLbls.append(lmg)
         refLbls.append(lPf)
-
-        # limpiar cálculo, ref labels
-        # if(len(refLbls)!=0):
-        #     for ref in refLbls:
-        #         ref.destroy()
-        
-        #     refLbls.clear()
-        #     rvalores.clear()
+        refLbls.append(lDot)
 
 
     except NameError as e:
@@ -153,7 +161,6 @@ def EnterNumData():
             btnCalcular = Button(root, text="Calcular", width=10, command=guardarData)
             btnCalcular.place(x=65, y=ejey+(30*numData))
             refLbls.append(btnCalcular)
-
 
 l_datos = Label(root, text='¿Cuántos datos tiene?')
 l_datos.place(x=150,y=25)
