@@ -3,11 +3,13 @@ import tkinter
 from tkinter import ttk
 from tkinter import *
 from tkinter import font
+from tkinter.tix import ButtonBox
 from tkinter.ttk import *
 from turtle import width
 from tkinter import messagebox
 import math
 from math import ceil
+from warnings import catch_warnings
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
@@ -16,7 +18,21 @@ import numpy as np
 root=Tk()
 root.title('Hardy Cross')
 root.iconbitmap('C:/Users/katherine/Documents/LearningTkinter/EXE/usmp.ico')
-root.geometry('700x450+450+150')
+root.geometry('780x450+450+150')
+
+tramo1_km=[]
+tramo2_km=[]
+tramo1_diametros=[]
+tramo2_diametros=[]
+tramo1_materiales=[]
+tramo2_materiales=[]
+entriesMetro1=[]
+entriesMetro2=[]
+entriesDiametros1=[]
+entriesDiametros2=[]
+entriesMateriales1=[]
+entriesMateriales2=[]
+
 
 # main frame
 main_frame=Frame(root)
@@ -45,6 +61,10 @@ for fila in range(80):
     second_frame.rowconfigure(fila, weight=1)
 
 # estilos
+# estilos = Style()
+# estilos.theme_use("default")
+# estilos.configure("root.TFrame")
+
 encabezado = Style()
 encabezado.configure("encabezado.TLabel", font='arial 10 bold', width='9', anchor='E')
 
@@ -52,127 +72,187 @@ celda=Style()
 celda.configure("celda.TLabel", font='arial 10',width='9', anchor='E')
 
 boton =Style()
-boton.configure('Boton.TButton', font='arial 10', width='9', background='#003366', refiel='flat')
-boton.map('Boton.TButton', foreground=[("active","#001933")])
+boton.configure('Boton.TButton', font='arial 10', width='9', background='#003366', foreground='black', refiel='flat')
+boton.map('Boton.TButton', background=[("active","#001933")], foreground=[('active','blCK')])
 
+def GenerarEncabezados(titulos, columna, fila):
+    for title in titulos:
+        lbl = Label(second_frame, text=title, style='encabezado.TLabel')
+        lbl.grid(column=columna, row=fila, sticky=(W,N,E,S), pady=(30, 0))
+        columna+=1
 
-# TRAMO 2
+def GenerarColumnaTramo1(columna, fila):
+    tramos=['A-B', 'B-C', 'C-D', 'D-A']
+    for tramo in tramos:
+        lbl = Label(second_frame, text=tramo, style='encabezado.TLabel')
+        lbl.grid(column=columna, row=fila, sticky=(W,N,E,S))
+        fila+=1
+
+def GenerarColumnaTramo2(columna, fila):
+    tramos=['A-D', 'D-E', 'E-F', 'F-A']
+    for tramo in tramos:
+        lbl = Label(second_frame, text=tramo, style='encabezado.TLabel')
+        lbl.grid(column=columna, row=fila, sticky=(W,N,E,S))
+        fila+=1
+
+# TRAMO 1
 
 tramo1lbl = Label(second_frame, text='1 Tramo', style='encabezado.TLabel')
-tramo1lbl.grid(column=0, row=2, columnspan=4, sticky=(W,N,E,S))
+tramo1lbl.grid(column=0, row=0, columnspan=4, sticky=(W,N,E,S))
 
 longlbl1 = Label(second_frame, text='Longitud', style='encabezado.TLabel')
-longlbl1.grid(column=0, row=3, sticky=(W,N,E,S))
+longlbl1.grid(column=0, row=1, sticky=(W,N,E,S))
 mlbl1 = Label(second_frame, text='m', style='encabezado.TLabel')
-mlbl1.grid(column=1, row=3, sticky=(W,N,E,S))
+mlbl1.grid(column=1, row=1, sticky=(W,N,E,S))
 kmlbl1 = Label(second_frame, text='Km', style='encabezado.TLabel')
-kmlbl1.grid(column=2, row=3, sticky=(W,N,E,S))
+kmlbl1.grid(column=2, row=1, sticky=(W,N,E,S))
 materiallbl1 = Label(second_frame, text='Material', style='encabezado.TLabel')
-materiallbl1.grid(column=3, row=3, sticky=(W,N,E,S))
-ABlbl1 = Label(second_frame, text='A-B', style='encabezado.TLabel')
-ABlbl1.grid(column=0, row=4, sticky=(W,N,E,S))
-BClbl1 = Label(second_frame, text='B-C', style='encabezado.TLabel')
-BClbl1.grid(column=0, row=5, sticky=(W,N,E,S))
-CDlbl1 = Label(second_frame, text='C-D', style='encabezado.TLabel')
-CDlbl1.grid(column=0, row=6, sticky=(W,N,E,S))
-DAlbl1 = Label(second_frame, text='D-A', style='encabezado.TLabel')
-DAlbl1.grid(column=0, row=7, sticky=(W,N,E,S))
+materiallbl1.grid(column=3, row=1, sticky=(W,N,E,S))
+GenerarColumnaTramo1(0,2)
 
-AB_lbl = Entry(second_frame,width='8')
-AB_lbl.grid(column=1, row=4)
-BC_lbl = Entry(second_frame,width='8')
-BC_lbl.grid(column=1, row=5)
-CD_lbl = Entry(second_frame,width='8')
-CD_lbl.grid(column=1, row=6)
-DA_lbl = Entry(second_frame,width='8')
-DA_lbl.grid(column=1, row=7)
+AB_metro = Entry(second_frame,width='8')
+AB_metro.grid(column=1, row=2)
+entriesMetro1.append(AB_metro)
+BC_metro = Entry(second_frame,width='8')
+BC_metro.grid(column=1, row=3)
+entriesMetro1.append(BC_metro)
+CD_metro = Entry(second_frame,width='8')
+CD_metro.grid(column=1, row=4)
+entriesMetro1.append(CD_metro)
+DA_metro = Entry(second_frame,width='8')
+DA_metro.grid(column=1, row=5)
+entriesMetro1.append(DA_metro)
 
-material_AB_lbl = Entry(second_frame,width='8')
-material_AB_lbl.grid(column=3, row=4)
-material_BC_lbl = Entry(second_frame,width='8')
-material_BC_lbl.grid(column=3, row=5)
-material_CD_lbl = Entry(second_frame,width='8')
-material_CD_lbl.grid(column=3, row=6)
-material_DA_lbl = Entry(second_frame,width='8')
-material_DA_lbl.grid(column=3, row=7)
+material_AB = Entry(second_frame,width='8')
+material_AB.grid(column=3, row=2)
+entriesMateriales1.append(material_AB)
+material_BC = Entry(second_frame,width='8')
+material_BC.grid(column=3, row=3)
+entriesMateriales1.append(material_BC)
+material_CD = Entry(second_frame,width='8')
+material_CD.grid(column=3, row=4)
+entriesMateriales1.append(material_CD)
+material_DA = Entry(second_frame,width='8')
+material_DA.grid(column=3, row=5)
+entriesMateriales1.append(material_DA)
 
 Diamelbl = Label(second_frame, text='Diámetro', style='encabezado.TLabel')
-Diamelbl.grid(column=0, row=8, sticky=(W,N,E,S), columnspan=2, pady=(30, 0))
-ABlbl1 = Label(second_frame, text='A-B', style='encabezado.TLabel')
-ABlbl1.grid(column=0, row=9, sticky=(W,N,E,S))
-BClbl1 = Label(second_frame, text='B-C', style='encabezado.TLabel')
-BClbl1.grid(column=0, row=10, sticky=(W,N,E,S))
-CDlbl1 = Label(second_frame, text='C-D', style='encabezado.TLabel')
-CDlbl1.grid(column=0, row=11, sticky=(W,N,E,S))
-DAlbl1 = Label(second_frame, text='D-A', style='encabezado.TLabel')
-DAlbl1.grid(column=0, row=12, sticky=(W,N,E,S))
-AB_lbl = Entry(second_frame,width='8')
-AB_lbl.grid(column=1, row=9)
-BC_lbl = Entry(second_frame,width='8')
-BC_lbl.grid(column=1, row=10)
-CD_lbl = Entry(second_frame,width='8')
-CD_lbl.grid(column=1, row=11)
-DA_lbl = Entry(second_frame,width='8')
-DA_lbl.grid(column=1, row=12)
+Diamelbl.grid(column=0, row=6, sticky=(W,N,E,S), columnspan=2, pady=(30, 0))
+GenerarColumnaTramo1(0,7)
+
+AB_diametro = Entry(second_frame,width='8')
+AB_diametro.grid(column=1, row=7)
+entriesDiametros1.append(AB_diametro)
+BC_diametro = Entry(second_frame,width='8')
+BC_diametro.grid(column=1, row=8)
+entriesDiametros1.append(BC_diametro)
+CD_diametro = Entry(second_frame,width='8')
+CD_diametro.grid(column=1, row=9)
+entriesDiametros1.append(CD_diametro)
+DA_diametro = Entry(second_frame,width='8')
+DA_diametro.grid(column=1, row=10)
+entriesDiametros1.append(DA_diametro)
 
 # TRAMO 2
 tramo2lbl = Label(second_frame, text='2 Tramo', style='encabezado.TLabel')
-tramo2lbl.grid(column=5, row=2, columnspan=4)
+tramo2lbl.grid(column=5, row=0, columnspan=4)
 
 longlbl2 = Label(second_frame, text='Longitud', style='encabezado.TLabel')
-longlbl2.grid(column=5, row=3, sticky=(W,N,E,S))
+longlbl2.grid(column=5, row=1, sticky=(W,N,E,S))
 mlbl2 = Label(second_frame, text='m', style='encabezado.TLabel')
-mlbl2.grid(column=6, row=3, sticky=(W,N,E,S))
+mlbl2.grid(column=6, row=1, sticky=(W,N,E,S))
 kmlbl2 = Label(second_frame, text='Km', style='encabezado.TLabel')
-kmlbl2.grid(column=7, row=3, sticky=(W,N,E,S))
+kmlbl2.grid(column=7, row=1, sticky=(W,N,E,S))
 materiallbl2 = Label(second_frame, text='Material', style='encabezado.TLabel')
-materiallbl2.grid(column=8, row=3, sticky=(W,N,E,S))
-ADlbl2 = Label(second_frame, text='A-D', style='encabezado.TLabel')
-ADlbl2.grid(column=5, row=4, sticky=(W,N,E,S))
-DElbl2 = Label(second_frame, text='D-E', style='encabezado.TLabel')
-DElbl2.grid(column=5, row=5, sticky=(W,N,E,S))
-EFlbl2 = Label(second_frame, text='E-F', style='encabezado.TLabel')
-EFlbl2.grid(column=5, row=6, sticky=(W,N,E,S))
-FAlbl2 = Label(second_frame, text='F-A', style='encabezado.TLabel')
-FAlbl2.grid(column=5, row=7, sticky=(W,N,E,S))
+materiallbl2.grid(column=8, row=1, sticky=(W,N,E,S))
+GenerarColumnaTramo2(5,2)
 
-AD_lbl = Entry(second_frame,width='8')
-AD_lbl.grid(column=6, row=4)
-DE_lbl = Entry(second_frame,width='8')
-DE_lbl.grid(column=6, row=5)
-EF_lbl = Entry(second_frame,width='8')
-EF_lbl.grid(column=6, row=6)
-FA_lbl = Entry(second_frame,width='8')
-FA_lbl.grid(column=6, row=7)
 
-material_AD_lbl = Entry(second_frame,width='8')
-material_AD_lbl.grid(column=8, row=4)
-material_DE_lbl = Entry(second_frame,width='8')
-material_DE_lbl.grid(column=8, row=5)
-material_EF_lbl = Entry(second_frame,width='8')
-material_EF_lbl.grid(column=8, row=6)
-material_FA_lbl = Entry(second_frame,width='8')
-material_FA_lbl.grid(column=8, row=7)
+AD_e = Entry(second_frame,width='8')
+AD_e.grid(column=6, row=2)
+entriesMetro2.append(AD_e)
+DE_e = Entry(second_frame,width='8')
+DE_e.grid(column=6, row=3)
+entriesMetro2.append(DE_e)
+EF_e = Entry(second_frame,width='8')
+EF_e.grid(column=6, row=4)
+entriesMetro2.append(EF_e)
+FA_e = Entry(second_frame,width='8')
+FA_e.grid(column=6, row=5)
+entriesMetro2.append(FA_e)
+
+material_AD = Entry(second_frame,width='8')
+material_AD.grid(column=8, row=2)
+entriesMateriales2.append(material_AD)
+material_DE = Entry(second_frame,width='8')
+material_DE.grid(column=8, row=3)
+entriesMateriales2.append(material_DE)
+material_EF = Entry(second_frame,width='8')
+material_EF.grid(column=8, row=4)
+entriesMateriales2.append(material_EF)
+material_FA = Entry(second_frame,width='8')
+material_FA.grid(column=8, row=5)
+entriesMateriales2.append(material_FA)
 
 Diamelbl = Label(second_frame, text='Diámetro', style='encabezado.TLabel')
-Diamelbl.grid(column=5, row=8, sticky=(W,N,E,S), columnspan=2, pady=(30, 0))
-ADlbl2 = Label(second_frame, text='A-D', style='encabezado.TLabel')
-ADlbl2.grid(column=5, row=9, sticky=(W,N,E,S))
-DElbl2 = Label(second_frame, text='D-E', style='encabezado.TLabel')
-DElbl2.grid(column=5, row=10, sticky=(W,N,E,S))
-EFlbl2 = Label(second_frame, text='E-F', style='encabezado.TLabel')
-EFlbl2.grid(column=5, row=11, sticky=(W,N,E,S))
-FAlbl2 = Label(second_frame, text='F-A', style='encabezado.TLabel')
-FAlbl2.grid(column=5, row=12, sticky=(W,N,E,S))
-AD_lbl = Entry(second_frame,width='8')
-AD_lbl.grid(column=6, row=9)
-DE_lbl = Entry(second_frame,width='8')
-DE_lbl.grid(column=6, row=10)
-EF_lbl = Entry(second_frame,width='8')
-EF_lbl.grid(column=6, row=11)
-FA_lbl = Entry(second_frame,width='8')
-FA_lbl.grid(column=6, row=12)
+Diamelbl.grid(column=5, row=6, sticky=(W,N,E,S), columnspan=2, pady=(30, 0))
+
+GenerarColumnaTramo2(5,7)
+AD_diametro = Entry(second_frame,width='8')
+AD_diametro.grid(column=6, row=7)
+DE_diametro = Entry(second_frame,width='8')
+DE_diametro.grid(column=6, row=8)
+EF_diametro = Entry(second_frame,width='8')
+EF_diametro.grid(column=6, row=9)
+FA_diametro = Entry(second_frame,width='8')
+FA_diametro.grid(column=6, row=10)
+
+# def ObtenerEntradas(entradas, fila, columna):
+#     for entry in entradas:
+#         fila+=1
+
+def PrimeraTabla():  
+    encabezados=['TRAMO','L-Km','D-pulg','C','K','Q-l/s','hf','hf/Q']
+    GenerarEncabezados(encabezados, 0, 11)   
+    FAlbl2 = Label(second_frame, text=f'{chr(916)} Q-l/s', style='encabezado.TLabel')
+    FAlbl2.grid(column=8, row=11, columnspan=2, sticky=(W,N,E,S), pady=(30, 0))    
+    encabezados2=['Q-l/s','hf-m']
+    GenerarEncabezados(encabezados2,10,11)
+
+
+def ToKm():
+    AB_km = int(AB_metro.get())/1000
+    lbl1 = Label(second_frame, text=f'{AB_km}', style='celda.TLabel')
+    lbl1.grid(column=2, row=2)
+    rowinit=1
+    for entry in entriesMetro1:
+        rowinit=rowinit+1
+        km=float(entry.get())/1000
+        tramo1_km.append(km)
+        lbl = Label(second_frame, text=km, style='celda.TLabel')
+        lbl.grid(column=2, row=rowinit) 
+
+    rowinit=1
+    for entry in entriesMetro2:
+        rowinit=rowinit+1
+        km=float(entry.get())/1000
+        tramo2_km.append(km)
+        lbl = Label(second_frame, text=km, style='celda.TLabel')
+        lbl.grid(column=7, row=rowinit) 
+
+    PrimeraTabla()
+
+
+
+    
+def Calcular(*args):
+    ToKm()
 
 # CALCULAR
+btnCalcular = Button(second_frame, text='Calcular', style='Boton.TButton', command=Calcular)
+btnCalcular.grid(column=8,row=8, sticky=(W,N,E,S))
+
+# keyPress Enter 
+root.bind("<Return>", Calcular)
 
 root.mainloop()
