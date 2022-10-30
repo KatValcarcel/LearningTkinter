@@ -3,7 +3,7 @@ import tkinter
 from tkinter import ttk
 from tkinter import *
 from tkinter import font
-from tkinter.tix import ButtonBox
+# from tkinter.tix import ButtonBox
 from tkinter.ttk import *
 from turtle import width
 from tkinter import messagebox
@@ -18,7 +18,8 @@ import numpy as np
 root=Tk()
 root.title('Hardy Cross')
 root.iconbitmap('C:/Users/katherine/Documents/LearningTkinter/EXE/usmp.ico')
-root.geometry('780x450+450+150')
+root.geometry('1080x450+450+150')
+root.state('zoomed')
 
 tramo1_km=[]
 tramo2_km=[]
@@ -51,7 +52,18 @@ second_frame=Frame(my_canvas)
 # Add a new frame to a window in the canvas
 my_canvas.create_window((0,0),window=second_frame, anchor='nw')
 
-
+canvasgrafico = Canvas(second_frame, bg='white')
+canvasgrafico.grid(column=13,row=0, rowspan=13, columnspan=7, padx=(20,0))
+canvasgrafico.create_polygon(105, 120, 135, 80, 255, 80, 285, 120,195,190, outline = 'blue', fill='white') 
+canvasgrafico.create_line (195, 190, 195, 80, fill ='blue') 
+canvasgrafico.create_line (105, 120, 105, 145, fill ='red') 
+canvasgrafico.create_line (135, 80, 110, 60, fill ='red') 
+canvasgrafico.create_line (195, 80, 165, 60, fill ='red') 
+canvasgrafico.create_line (195, 80, 225, 40, fill ='red') 
+canvasgrafico.create_line (255, 80, 285, 60, fill ='red') 
+canvasgrafico.create_line (285, 120, 285, 145, fill ='red') 
+canvasgrafico.create_line (195, 190, 215, 150, fill ='red') 
+canvasgrafico.create_line (195, 190, 225, 215, fill ='red') 
 # generar columnas y filas 
 # second_frame.grid(column=0,row=0, sticky=(W,N,E,S))
 # for columna in range(12):
@@ -114,6 +126,8 @@ kmlbl1 = Label(second_frame, text='Km', style='encabezado.TLabel')
 kmlbl1.grid(column=2, row=1, sticky=(W,N,E,S))
 materiallbl1 = Label(second_frame, text='Material', style='encabezado.TLabel')
 materiallbl1.grid(column=3, row=1, sticky=(W,N,E,S))
+Diamelbl = Label(second_frame, text='Diámetro', style='encabezado.TLabel')
+Diamelbl.grid(column=4, row=1, sticky=(W,N,E,S))
 GenerarColumnaTramo1(0,2)
 
 AB_metro = Entry(second_frame,width='8')
@@ -142,76 +156,73 @@ material_DA = Entry(second_frame,width='8')
 material_DA.grid(column=3, row=5)
 entriesMateriales1.append(material_DA)
 
-Diamelbl = Label(second_frame, text='Diámetro', style='encabezado.TLabel')
-Diamelbl.grid(column=0, row=6, sticky=(W,N,E,S), columnspan=2, pady=(30, 0))
-GenerarColumnaTramo1(0,7)
+
 
 AB_diametro = Entry(second_frame,width='8')
-AB_diametro.grid(column=1, row=7)
+AB_diametro.grid(column=4, row=2)
 entriesDiametros1.append(AB_diametro)
 BC_diametro = Entry(second_frame,width='8')
-BC_diametro.grid(column=1, row=8)
+BC_diametro.grid(column=4, row=3)
 entriesDiametros1.append(BC_diametro)
 CD_diametro = Entry(second_frame,width='8')
-CD_diametro.grid(column=1, row=9)
+CD_diametro.grid(column=4, row=4)
 entriesDiametros1.append(CD_diametro)
 DA_diametro = Entry(second_frame,width='8')
-DA_diametro.grid(column=1, row=10)
+DA_diametro.grid(column=4, row=5)
 entriesDiametros1.append(DA_diametro)
 
 # TRAMO 2
 tramo2lbl = Label(second_frame, text='2 Tramo', style='encabezado.TLabel')
-tramo2lbl.grid(column=5, row=0, columnspan=4)
+tramo2lbl.grid(column=6, row=0, columnspan=4)
 
 longlbl2 = Label(second_frame, text='Longitud', style='encabezado.TLabel')
-longlbl2.grid(column=5, row=1, sticky=(W,N,E,S))
+longlbl2.grid(column=6, row=1, sticky=(W,N,E,S))
 mlbl2 = Label(second_frame, text='m', style='encabezado.TLabel')
-mlbl2.grid(column=6, row=1, sticky=(W,N,E,S))
+mlbl2.grid(column=7, row=1, sticky=(W,N,E,S))
 kmlbl2 = Label(second_frame, text='Km', style='encabezado.TLabel')
-kmlbl2.grid(column=7, row=1, sticky=(W,N,E,S))
+kmlbl2.grid(column=8, row=1, sticky=(W,N,E,S))
 materiallbl2 = Label(second_frame, text='Material', style='encabezado.TLabel')
-materiallbl2.grid(column=8, row=1, sticky=(W,N,E,S))
-GenerarColumnaTramo2(5,2)
+materiallbl2.grid(column=9, row=1, sticky=(W,N,E,S))
+Diamelbl = Label(second_frame, text='Diámetro', style='encabezado.TLabel')
+Diamelbl.grid(column=10, row=1, sticky=(W,N,E,S))
+GenerarColumnaTramo2(6,2)
 
 
 AD_e = Entry(second_frame,width='8')
-AD_e.grid(column=6, row=2)
+AD_e.grid(column=7, row=2)
 entriesMetro2.append(AD_e)
 DE_e = Entry(second_frame,width='8')
-DE_e.grid(column=6, row=3)
+DE_e.grid(column=7, row=3)
 entriesMetro2.append(DE_e)
 EF_e = Entry(second_frame,width='8')
-EF_e.grid(column=6, row=4)
+EF_e.grid(column=7, row=4)
 entriesMetro2.append(EF_e)
 FA_e = Entry(second_frame,width='8')
-FA_e.grid(column=6, row=5)
+FA_e.grid(column=7, row=5)
 entriesMetro2.append(FA_e)
 
 material_AD = Entry(second_frame,width='8')
-material_AD.grid(column=8, row=2)
+material_AD.grid(column=9, row=2)
 entriesMateriales2.append(material_AD)
 material_DE = Entry(second_frame,width='8')
-material_DE.grid(column=8, row=3)
+material_DE.grid(column=9, row=3)
 entriesMateriales2.append(material_DE)
 material_EF = Entry(second_frame,width='8')
-material_EF.grid(column=8, row=4)
+material_EF.grid(column=9, row=4)
 entriesMateriales2.append(material_EF)
 material_FA = Entry(second_frame,width='8')
-material_FA.grid(column=8, row=5)
+material_FA.grid(column=9, row=5)
 entriesMateriales2.append(material_FA)
 
-Diamelbl = Label(second_frame, text='Diámetro', style='encabezado.TLabel')
-Diamelbl.grid(column=5, row=6, sticky=(W,N,E,S), columnspan=2, pady=(30, 0))
 
-GenerarColumnaTramo2(5,7)
 AD_diametro = Entry(second_frame,width='8')
-AD_diametro.grid(column=6, row=7)
+AD_diametro.grid(column=10, row=2)
 DE_diametro = Entry(second_frame,width='8')
-DE_diametro.grid(column=6, row=8)
+DE_diametro.grid(column=10, row=3)
 EF_diametro = Entry(second_frame,width='8')
-EF_diametro.grid(column=6, row=9)
+EF_diametro.grid(column=10, row=4)
 FA_diametro = Entry(second_frame,width='8')
-FA_diametro.grid(column=6, row=10)
+FA_diametro.grid(column=10, row=5)
 
 # def ObtenerEntradas(entradas, fila, columna):
 #     for entry in entradas:
@@ -276,7 +287,7 @@ def Calcular(*args):
 
 # CALCULAR
 btnCalcular = Button(second_frame, text='Calcular', style='Boton.TButton', command=Calcular)
-btnCalcular.grid(column=8,row=8, sticky=(W,N,E,S))
+btnCalcular.grid(column=5,row=8, sticky=(W,N,E,S), pady=(20,0))
 
 # keyPress Enter 
 root.bind("<Return>", Calcular)
