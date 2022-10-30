@@ -53,12 +53,12 @@ my_canvas.create_window((0,0),window=second_frame, anchor='nw')
 
 
 # generar columnas y filas 
-second_frame.grid(column=0,row=0, sticky=(W,N,E,S))
-for columna in range(12):
-    second_frame.columnconfigure(columna, weight=1)
+# second_frame.grid(column=0,row=0, sticky=(W,N,E,S))
+# for columna in range(12):
+#     second_frame.columnconfigure(columna, weight=1)
 
-for fila in range(80):
-    second_frame.rowconfigure(fila, weight=1)
+# for fila in range(80):
+#     second_frame.rowconfigure(fila, weight=1)
 
 # estilos
 # estilos = Style()
@@ -75,23 +75,29 @@ boton =Style()
 boton.configure('Boton.TButton', font='arial 10', width='9', background='#003366', foreground='black', refiel='flat')
 boton.map('Boton.TButton', background=[("active","#001933")], foreground=[('active','blCK')])
 
-def GenerarEncabezados(titulos, columna, fila):
+def GenerarEncabezados(titulos:list, columna:int, fila:int):
     for title in titulos:
         lbl = Label(second_frame, text=title, style='encabezado.TLabel')
         lbl.grid(column=columna, row=fila, sticky=(W,N,E,S), pady=(30, 0))
         columna+=1
 
-def GenerarColumnaTramo1(columna, fila):
+def GenerarColumnaTramo1(columna:int, fila:int):
     tramos=['A-B', 'B-C', 'C-D', 'D-A']
     for tramo in tramos:
         lbl = Label(second_frame, text=tramo, style='encabezado.TLabel')
         lbl.grid(column=columna, row=fila, sticky=(W,N,E,S))
         fila+=1
 
-def GenerarColumnaTramo2(columna, fila):
+def GenerarColumnaTramo2(columna:int, fila:int):
     tramos=['A-D', 'D-E', 'E-F', 'F-A']
     for tramo in tramos:
         lbl = Label(second_frame, text=tramo, style='encabezado.TLabel')
+        lbl.grid(column=columna, row=fila, sticky=(W,N,E,S))
+        fila+=1
+
+def LlenarColumna(valores:list,columna:int,fila:int):
+    for valor in valores:
+        lbl = Label(second_frame, text=valor, style='celda.TLabel')
         lbl.grid(column=columna, row=fila, sticky=(W,N,E,S))
         fila+=1
 
@@ -218,35 +224,44 @@ def PrimeraTabla():
     FAlbl2.grid(column=8, row=11, columnspan=2, sticky=(W,N,E,S), pady=(30, 0))    
     encabezados2=['Q-l/s','hf-m']
     GenerarEncabezados(encabezados2,10,11)
+    GenerarColumnaTramo1(0,12)
 
+    # graficar km
+    LlenarColumna(tramo1_km,1,12)
+
+def GuardarDiametrosMateriales():
+    for entry in entriesDiametros1:
+        tramo1_diametros.append(float(entry.get()))
+    for entry in entriesDiametros2:
+        tramo2_diametros.append(float(entry.get()))
+    for entry in entriesMateriales1:
+        tramo1_materiales.append(float(entry.get()))
+    for entry in entriesMateriales2:
+        tramo2_materiales.append(float(entry.get()))
 
 def ToKm():
-    AB_km = int(AB_metro.get())/1000
-    lbl1 = Label(second_frame, text=f'{AB_km}', style='celda.TLabel')
-    lbl1.grid(column=2, row=2)
-    rowinit=1
+    rowinit=2
     for entry in entriesMetro1:
-        rowinit=rowinit+1
         km=float(entry.get())/1000
         tramo1_km.append(km)
         lbl = Label(second_frame, text=km, style='celda.TLabel')
         lbl.grid(column=2, row=rowinit) 
-
-    rowinit=1
+        rowinit+=1
+    print(f'km1:{tramo1_km}')
+    rowinit=2
     for entry in entriesMetro2:
-        rowinit=rowinit+1
         km=float(entry.get())/1000
         tramo2_km.append(km)
         lbl = Label(second_frame, text=km, style='celda.TLabel')
         lbl.grid(column=7, row=rowinit) 
+        rowinit+=1
 
-    PrimeraTabla()
-
-
-
+    GuardarDiametrosMateriales()
+    
     
 def Calcular(*args):
     ToKm()
+    PrimeraTabla()
 
 # CALCULAR
 btnCalcular = Button(second_frame, text='Calcular', style='Boton.TButton', command=Calcular)
