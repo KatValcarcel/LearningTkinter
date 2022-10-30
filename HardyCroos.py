@@ -226,8 +226,19 @@ def PrimeraTabla():
     GenerarEncabezados(encabezados2,10,11)
     GenerarColumnaTramo1(0,12)
 
-    # graficar km
+    # graficar km, pulgadas, material
     LlenarColumna(tramo1_km,1,12)
+    LlenarColumna(tramo1_diametros,2,12)
+    LlenarColumna(tramo1_materiales,3,12)
+
+    kTramo1=[]
+    qls=[]
+    for i in range(4):
+        k=round(((10**7)*tramo1_km[i]/(5.813*(tramo1_materiales[i]**1.852)*(tramo1_diametros[i]**4.87))),5)
+        kTramo1.append(k)
+
+        # ql=round(,2)
+    LlenarColumna(kTramo1,4,12)
 
 def GuardarDiametrosMateriales():
     for entry in entriesDiametros1:
@@ -242,7 +253,7 @@ def GuardarDiametrosMateriales():
 def ToKm():
     rowinit=2
     for entry in entriesMetro1:
-        km=float(entry.get())/1000
+        km=round(float(entry.get())/1000,2)
         tramo1_km.append(km)
         lbl = Label(second_frame, text=km, style='celda.TLabel')
         lbl.grid(column=2, row=rowinit) 
@@ -250,7 +261,7 @@ def ToKm():
     print(f'km1:{tramo1_km}')
     rowinit=2
     for entry in entriesMetro2:
-        km=float(entry.get())/1000
+        km=round(float(entry.get())/1000,2)
         tramo2_km.append(km)
         lbl = Label(second_frame, text=km, style='celda.TLabel')
         lbl.grid(column=7, row=rowinit) 
