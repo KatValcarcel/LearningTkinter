@@ -30,7 +30,6 @@ def TemaClaro(*args):
 
 root = Tk()
 root.title("Calculadora")
-# root.title("Población futura")
 root.geometry("+500+80")
 root.columnconfigure(0,weight=1)
 root.rowconfigure(0, weight=1)

@@ -72,7 +72,7 @@ def AbrirGrafica():
     anioStr = list(map(str, anios))
     plt.rcdefaults()
 
-    fig, axs = plt.subplots(1, 3, figsize=(9, 4), sharey=True)
+    fig, axs = plt.subplots(1, 3, figsize=(9, 3), sharey=True)
     axs[0].bar(anioStr, poblaciones)
     axs[1].scatter(anioStr, poblaciones)
     axs[2].plot(anioStr, poblaciones)
