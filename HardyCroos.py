@@ -21,6 +21,19 @@ root.iconbitmap('C:/Users/katherine/Documents/LearningTkinter/EXE/usmp.ico')
 root.geometry('1080x450+450+150')
 root.state('zoomed')
 
+m3=0.0
+o3=0.0
+q1=0.0
+q5=0.0
+q8=0.0
+s3=0.0
+s10=0.0
+p7=0.0
+q13=0.0
+m9=0.0
+n10=0.0
+m6=0.0
+
 tramo1_km=[]
 tramo2_km=[]
 tramo1_diametros=[]
@@ -54,28 +67,40 @@ my_canvas.create_window((0,0),window=second_frame, anchor='nw')
 
 canvasgrafico = Canvas(second_frame, bg='white')
 canvasgrafico.grid(column=13,row=0, rowspan=13, columnspan=7, padx=(20,0))
-canvasgrafico.create_polygon(105, 120, 135, 80, 255, 80, 285, 120,195,190, outline = 'blue', fill='white') 
+canvasgrafico.create_polygon(105, 150, 135, 80, 255, 80, 285, 150,195,190, outline = 'blue', fill='white') 
 canvasgrafico.create_line (195, 190, 195, 80, fill ='blue') 
-canvasgrafico.create_line (105, 120, 105, 145, fill ='red') 
+canvasgrafico.create_line (105, 150, 105, 175, fill ='red') 
 canvasgrafico.create_line (135, 80, 110, 60, fill ='red') 
 canvasgrafico.create_line (195, 80, 165, 60, fill ='red') 
 canvasgrafico.create_line (195, 80, 225, 40, fill ='red') 
 canvasgrafico.create_line (255, 80, 285, 60, fill ='red') 
-canvasgrafico.create_line (285, 120, 285, 145, fill ='red') 
-canvasgrafico.create_line (195, 190, 215, 150, fill ='red') 
+canvasgrafico.create_line (285, 150, 285, 175, fill ='red') 
+canvasgrafico.create_line (195, 190, 225, 150, fill ='red') 
 canvasgrafico.create_line (195, 190, 225, 215, fill ='red') 
-# generar columnas y filas 
-# second_frame.grid(column=0,row=0, sticky=(W,N,E,S))
-# for columna in range(12):
-#     second_frame.columnconfigure(columna, weight=1)
+# entradas
+e_m9=Entry(canvasgrafico,width='6')
+e_m9.place(x=79, y=175)
+e_m3=Entry(canvasgrafico,width='6')
+e_m3.place(x=85, y=40)
+e_o3=Entry(canvasgrafico,width='6')
+e_o3.place(x=140, y=40)
+e_o5=Entry(canvasgrafico,width='6')
+e_o5.place(x=145, y=82)
+e_p7=Entry(canvasgrafico,width='6')
+e_p7.place(x=152, y=120)
+e_q1=Entry(canvasgrafico,width='6')
+e_q1.place(x=220, y=20)
+e_s3=Entry(canvasgrafico,width='6')
+e_s3.place(x=285, y=40)
+e_q5=Entry(canvasgrafico,width='6')
+e_q5.place(x=205, y=82)
+e_s10=Entry(canvasgrafico,width='6')
+e_s10.place(x=265, y=175)
+e_q8=Entry(canvasgrafico,width='6')
+e_q8.place(x=205, y=135)
+e_q13=Entry(canvasgrafico,width='6')
+e_q13.place(x=225, y=215)
 
-# for fila in range(80):
-#     second_frame.rowconfigure(fila, weight=1)
-
-# estilos
-# estilos = Style()
-# estilos.theme_use("default")
-# estilos.configure("root.TFrame")
 
 encabezado = Style()
 encabezado.configure("encabezado.TLabel", font='arial 10 bold', width='9', anchor='E')
@@ -86,6 +111,24 @@ celda.configure("celda.TLabel", font='arial 10',width='9', anchor='E')
 boton =Style()
 boton.configure('Boton.TButton', font='arial 10', width='9', background='#003366', foreground='black', refiel='flat')
 boton.map('Boton.TButton', background=[("active","#001933")], foreground=[('active','blCK')])
+
+# TODO: Label en Canvas
+# def labelCanvas():
+def DatosGrafico():
+    m9=float(e_m9.get())
+    m3=float(e_m3.get())
+    o3=float(e_o3.get())
+    o5=float(e_o5.get())
+    p7=float(e_p7.get())
+    q1=float(e_q1.get())
+    s3=float(e_s3.get())
+    q5=float(e_q5.get())
+    q8=float(e_q8.get())
+    s10=float(e_s10.get())
+    q13=float(e_q13.get())
+
+    lblm6 = Label(canvasgrafico, text=m3-(o5))
+    lblm6.place(x=79, y=125)
 
 def GenerarEncabezados(titulos:list, columna:int, fila:int):
     for title in titulos:
@@ -241,7 +284,7 @@ def PrimeraTabla():
     LlenarColumna(tramo1_km,1,12)
     LlenarColumna(tramo1_diametros,2,12)
     LlenarColumna(tramo1_materiales,3,12)
-
+    # TODO: borrar lbls
     kTramo1=[]
     qls=[]
     for i in range(4):
@@ -249,6 +292,7 @@ def PrimeraTabla():
         kTramo1.append(k)
 
         # ql=round(,2)
+
     LlenarColumna(kTramo1,4,12)
 
 def GuardarDiametrosMateriales():
@@ -279,6 +323,7 @@ def ToKm():
         rowinit+=1
 
     GuardarDiametrosMateriales()
+    DatosGrafico()
     
     
 def Calcular(*args):
