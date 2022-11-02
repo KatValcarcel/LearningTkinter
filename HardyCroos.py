@@ -347,6 +347,7 @@ def PrimeraTabla():
     LlenarColumna(tramo2_diametros,2,17)
     LlenarColumna(tramo2_materiales,3,17)
 
+    # K
     kTramo1=[]
     kTramo2=[]
     for i in range(4):
@@ -356,7 +357,7 @@ def PrimeraTabla():
         kTramo2.append(k2)
     LlenarColumna(kTramo1,4,12)
     LlenarColumna(kTramo2,4,17)
-    
+    # Q-l/s
     qls1=[]
     qls1.append(-o5)
     qls1.append(m6)
@@ -370,6 +371,7 @@ def PrimeraTabla():
     qls2.append(q5)
     LlenarColumna(qls2,5,17)
     
+    # hf
     hf=[]
     hf2=[]
     for i in range(4):
@@ -391,6 +393,7 @@ def PrimeraTabla():
     lbl2 = Label(second_frame, text=round(sum(hf2),2), style='celdaroja.TLabel', font='arial 11 bold')
     lbl2.grid(column=6, row=21, sticky=(W,N,E,S))
 
+    # hf/Q
     hfq=[]
     hfq2=[]
     for i in range(4):
@@ -406,7 +409,36 @@ def PrimeraTabla():
     lb2 = Label(second_frame, text=round(sum(hfq2),2), style='celda.TLabel', font='arial 11 bold')
     lb2.grid(column=7, row=21, sticky=(W,N,E,S))
 
+    # var Q-l/s
+    varql=round(-(sum(hf)/(1.852*sum(hfq))),2)
+    lblvarql=Label(second_frame,text=varql,style='celda.TLabel')
+    lblvarql.grid(column=8, row=12, rowspan=4, sticky=(W,N,E,S))
+    lblvarql=Label(second_frame,text=-varql,style='celda.TLabel')
+    lblvarql.grid(column=9, row=17, sticky=(W,N,E,S))
 
+    varql2=round(-(sum(hf2)/(1.852*sum(hfq2))),2)
+    lblvarql2=Label(second_frame,text=varql2,style='celda.TLabel')
+    lblvarql2.grid(column=8, row=17, rowspan=4, sticky=(W,N,E,S))
+    lblvarql=Label(second_frame,text=-varql2,style='celda.TLabel')
+    lblvarql.grid(column=9, row=15,  sticky=(W,N,E,S))
+
+    # qls
+    qls12=[]
+    qls22=[]
+    for i in range(4):
+        if i==0:
+            qlo = round(varql+qls1[i],2)
+            qlo2 = round((varql2+-varql)+qls2[i],2)
+        elif i==3:
+            qlo = round((varql+-varql2)+qls1[i],2)
+            qlo2 = round(varql2+qls2[i],2)
+        else:
+            qlo = round(varql+qls1[i],2)
+            qlo2 = round(varql2+qls2[i],2)
+        qls12.append(qlo)
+        qls22.append(qlo2)
+    LlenarColumna(qls12,10,12)
+    LlenarColumna(qls22,10,17)
 
 def GuardarDiametrosMateriales():
     for entry in entriesDiametros1:
