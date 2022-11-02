@@ -463,6 +463,16 @@ def PrimeraTabla():
     lbl = Label(second_frame, text=round(sum(hfm2),2), style='celdaroja.TLabel', font='arial 11 bold')
     lbl.grid(column=11, row=21, sticky=(W,N,E,S))
 
+def SegundaTabla():
+    encabezados=['TRAMO','L-Km','D-pulg','C','K','Q-l/s','hf','hf/Q']
+    GenerarEncabezados(encabezados, 0, 22)   
+    FAlbl2 = Label(second_frame, text=f'{chr(916)} Q-l/s', style='encabezado.TLabel')
+    FAlbl2.grid(column=8, row=11, columnspan=2, sticky=(W,N,E,S), pady=(30, 0))    
+    encabezados2=['Q-l/s','hf-m']
+    GenerarEncabezados(encabezados2,10,11)
+    GenerarColumnaTramo1(0,23)
+    GenerarColumnaTramo2(0,28)
+
 def GuardarDiametrosMateriales():
     for entry in entriesDiametros1:
         tramo1_diametros.append(float(entry.get()))
@@ -510,7 +520,7 @@ def Calcular(*args):
     llenarEntradas()
     ToKm()
     PrimeraTabla()
-
+    SegundaTabla()
 # CALCULAR
 btnCalcular = Button(second_frame, text='Calcular', style='Boton.TButton', command=Calcular)
 btnCalcular.grid(column=5,row=8, sticky=(W,N,E,S), pady=(20,0))
