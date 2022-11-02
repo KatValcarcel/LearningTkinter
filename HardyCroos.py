@@ -1,11 +1,12 @@
 from ast import main
+from textwrap import fill
 import tkinter
 from tkinter import ttk
 from tkinter import *
 from tkinter import font
 # from tkinter.tix import ButtonBox
 from tkinter.ttk import *
-from turtle import width
+from turtle import color, width
 from tkinter import messagebox
 import math
 from math import ceil
@@ -13,11 +14,25 @@ from warnings import catch_warnings
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
-
+import sys
+import os
+from PIL import ImageTk, Image
 # --inicio--
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+# export: auto-py-to-exe
+
 root=Tk()
 root.title('Hardy Cross')
-root.iconbitmap('C:/Users/katherine/Documents/LearningTkinter/EXE/usmp.ico')
+iconPath = resource_path('usmp.ico')
+root.iconbitmap(iconPath)
 root.geometry('1080x450+450+150')
 root.state('zoomed')
 
@@ -46,7 +61,7 @@ entriesDiametros1=[]
 entriesDiametros2=[]
 entriesMateriales1=[]
 entriesMateriales2=[]
-
+kmlbl=[]
 
 # main frame
 main_frame=Frame(root)
@@ -77,28 +92,29 @@ canvasgrafico.create_line (255, 80, 285, 60, fill ='red')
 canvasgrafico.create_line (285, 150, 285, 175, fill ='red') 
 canvasgrafico.create_line (195, 190, 225, 150, fill ='red') 
 canvasgrafico.create_line (195, 190, 225, 215, fill ='red') 
+
 # entradas
-e_m9=Entry(canvasgrafico,width='6')
+e_m9=Entry(canvasgrafico,width='5')
 e_m9.place(x=79, y=175)
-e_m3=Entry(canvasgrafico,width='6')
+e_m3=Entry(canvasgrafico,width='5')
 e_m3.place(x=85, y=40)
-e_o3=Entry(canvasgrafico,width='6')
+e_o3=Entry(canvasgrafico,width='5')
 e_o3.place(x=140, y=40)
-e_o5=Entry(canvasgrafico,width='6')
+e_o5=Entry(canvasgrafico,width='5',foreground='red')
 e_o5.place(x=145, y=82)
-e_p7=Entry(canvasgrafico,width='6')
+e_p7=Entry(canvasgrafico,width='5',foreground='red')
 e_p7.place(x=152, y=120)
-e_q1=Entry(canvasgrafico,width='6')
+e_q1=Entry(canvasgrafico,width='5')
 e_q1.place(x=220, y=20)
-e_s3=Entry(canvasgrafico,width='6')
+e_s3=Entry(canvasgrafico,width='5')
 e_s3.place(x=285, y=40)
-e_q5=Entry(canvasgrafico,width='6')
+e_q5=Entry(canvasgrafico,width='5',foreground='red')
 e_q5.place(x=205, y=82)
-e_s10=Entry(canvasgrafico,width='6')
+e_s10=Entry(canvasgrafico,width='5')
 e_s10.place(x=265, y=175)
-e_q8=Entry(canvasgrafico,width='6')
+e_q8=Entry(canvasgrafico,width='5')
 e_q8.place(x=205, y=135)
-e_q13=Entry(canvasgrafico,width='6')
+e_q13=Entry(canvasgrafico,width='5')
 e_q13.place(x=225, y=215)
 
 
@@ -112,8 +128,35 @@ boton =Style()
 boton.configure('Boton.TButton', font='arial 10', width='9', background='#003366', foreground='black', refiel='flat')
 boton.map('Boton.TButton', background=[("active","#001933")], foreground=[('active','blCK')])
 
-# TODO: Label en Canvas
-# def labelCanvas():
+
+
+def llenarEntradas():
+    for entry in entriesDiametros1:
+        entry.insert(0,'4')
+    for entry in entriesDiametros2:
+        entry.insert(0,'5')
+    for entry in entriesMateriales1:
+        entry.insert(0,'100')
+    for entry in entriesMateriales2:
+        entry.insert(0,'200')
+    for entry in entriesMetro1:
+        entry.insert(0,'355')
+    for entry in entriesMetro2:
+        entry.insert(0,'864')
+    e_m9.insert(0,'12.49')
+    e_m3.insert(0,'18.74')
+    e_o3.insert(0,'12.49')
+    e_o5.insert(0,'2.49')
+    e_p7.insert(0,'8.5')
+    e_q1.insert(0,'34.7')
+    e_s3.insert(0,'37.48')
+    e_q5.insert(0,'11.22')
+    e_q8.insert(0,'90.22')
+    e_s10.insert(0,'18.74')
+    e_q13.insert(0,'24.98')
+
+
+# GRAFICO
 def DatosGrafico():
     m9=float(e_m9.get())
     m3=float(e_m3.get())
@@ -127,8 +170,18 @@ def DatosGrafico():
     s10=float(e_s10.get())
     q13=float(e_q13.get())
 
-    lblm6 = Label(canvasgrafico, text=m3-(o5))
-    lblm6.place(x=79, y=125)
+    m6=round(m3-(o5),2)
+    lblm6 = Label(canvasgrafico, text=m6, font='Arial 8', foreground='red', background='white')
+    lblm6.place(x=88, y=100)
+    n10=round(m6+m9,2)
+    lbln10 = Label(canvasgrafico, text=n10, font='Arial 8', foreground='red', background='white')
+    lbln10.place(x=135, y=170)
+    s6=round(s3-q5,2)
+    lbls6 = Label(canvasgrafico, text=s6, font='Arial 8', foreground='red', background='white')
+    lbls6.place(x=280, y=100)
+    r10=round(s10+s6,2)
+    lbls6 = Label(canvasgrafico, text=r10, font='Arial 8', foreground='red', background='white')
+    lbls6.place(x=230, y=175)
 
 def GenerarEncabezados(titulos:list, columna:int, fila:int):
     for title in titulos:
@@ -199,8 +252,6 @@ material_DA = Entry(second_frame,width='8')
 material_DA.grid(column=3, row=5)
 entriesMateriales1.append(material_DA)
 
-
-
 AB_diametro = Entry(second_frame,width='8')
 AB_diametro.grid(column=4, row=2)
 entriesDiametros1.append(AB_diametro)
@@ -260,12 +311,16 @@ entriesMateriales2.append(material_FA)
 
 AD_diametro = Entry(second_frame,width='8')
 AD_diametro.grid(column=10, row=2)
+entriesDiametros2.append(AD_diametro)
 DE_diametro = Entry(second_frame,width='8')
 DE_diametro.grid(column=10, row=3)
+entriesDiametros2.append(DE_diametro)
 EF_diametro = Entry(second_frame,width='8')
 EF_diametro.grid(column=10, row=4)
+entriesDiametros2.append(EF_diametro)
 FA_diametro = Entry(second_frame,width='8')
 FA_diametro.grid(column=10, row=5)
+entriesDiametros2.append(FA_diametro)
 
 # def ObtenerEntradas(entradas, fila, columna):
 #     for entry in entradas:
@@ -284,7 +339,7 @@ def PrimeraTabla():
     LlenarColumna(tramo1_km,1,12)
     LlenarColumna(tramo1_diametros,2,12)
     LlenarColumna(tramo1_materiales,3,12)
-    # TODO: borrar lbls
+
     kTramo1=[]
     qls=[]
     for i in range(4):
@@ -306,20 +361,34 @@ def GuardarDiametrosMateriales():
         tramo2_materiales.append(float(entry.get()))
 
 def ToKm():
+    if (len(kmlbl)!=0):
+        for lbl in kmlbl:
+            lbl.destroy()
+        kmlbl.clear()
+        tramo1_km.clear()
+        tramo2_km.clear()
+        tramo1_diametros.clear()
+        tramo2_diametros.clear()
+        tramo1_materiales.clear()
+        tramo2_materiales.clear()
+
     rowinit=2
     for entry in entriesMetro1:
-        km=round(float(entry.get())/1000,2)
+        km=round(float(entry.get())/1000,3)
         tramo1_km.append(km)
         lbl = Label(second_frame, text=km, style='celda.TLabel')
         lbl.grid(column=2, row=rowinit) 
+        kmlbl.append(lbl)
         rowinit+=1
     print(f'km1:{tramo1_km}')
+
     rowinit=2
     for entry in entriesMetro2:
         km=round(float(entry.get())/1000,2)
         tramo2_km.append(km)
         lbl = Label(second_frame, text=km, style='celda.TLabel')
-        lbl.grid(column=7, row=rowinit) 
+        lbl.grid(column=8, row=rowinit)
+        kmlbl.append(lbl) 
         rowinit+=1
 
     GuardarDiametrosMateriales()
@@ -327,6 +396,7 @@ def ToKm():
     
     
 def Calcular(*args):
+    llenarEntradas()
     ToKm()
     PrimeraTabla()
 
