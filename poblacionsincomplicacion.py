@@ -1,7 +1,10 @@
+from email.mime import image
 import tkinter
 from tkinter import ttk
 from tkinter import *
 from tkinter import font
+from tkinter import font as tkfont
+# from tkinter import font
 from tkinter.ttk import *
 from turtle import width
 from tkinter import messagebox
@@ -10,13 +13,38 @@ from math import ceil
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
-
+import sys
+import os
+from PIL import ImageTk, Image
 # --inicio--
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 # export: auto-py-to-exe
+# pyinstaller --onefile --noconsole --clean --icon='usmp.ico' --add-data 'usmp.ico;.' --add-data 'FIA.jpg;.' Calculadora.py
 root=Tk()
 root.title('Población futura')
-# root.iconbitmap('C:/Users/katherine/Documents/LearningTkinter/EXE/usmp.ico')
-root.geometry('700x450+450+150')
+iconPath = resource_path('usmp.ico')
+root.iconbitmap(iconPath)
+root.geometry('800x500+450+150')
+
+normal_font = tkfont.Font(family="Arial", size=12)
+bold_font = tkfont.Font(family="Arial", size=12, weight="bold")
+
+bg=ImageTk.PhotoImage(Image.open(resource_path('FIA.jpg')))
+# my_label = Label(root, image=bg)
+# my_label.place(x=0, y=0, relwidth=1, relheight=1,anchor='nw')
+canvasbg = Canvas(root, width=800, height=500)
+canvasbg.pack(fill='both', expand=True)
+canvasbg.create_image(0,0, image=bg, anchor='nw')
+
+
 
 anios=[]
 poblaciones=[]
@@ -151,26 +179,20 @@ def graficar():
         print(f'Poblacion: {poblaciones}')
         
 
-        Lbl1 = Label(root, text=f'Método Aritmético:', font='Arial 10')
-        Lbl1.place(x=310, y=130)
-        lma = Label(root, text=f'Pf= {int(ma)} habitantes', font='Arial 10 bold')
-        lma.place(x=500, y=130)
-        Lbl1 = Label(root, text=f'Método Interés Simple:', font='Arial 10')
-        Lbl1.place(x=310, y=160)
-        lmi = Label(root, text=f'Pf= {int(mi)} habitantes', font='Arial 10 bold')
-        lmi.place(x=500, y=160)
-        Lbl1 = Label(root, text='Método Geométrico: ', font='Arial 10')
-        Lbl1.place(x=310, y=190)
-        lmg = Label(root, text=f'Pf= {int(mg)} habitantes', font='Arial 10 bold')
-        lmg.place(x=500, y=190)
 
-        lPf = Label(root, text=f'Pf= {Pf} habitantes', font='Arial 13 bold')
-        lPf.place(x=310, y=220)
+        Lbl1 = canvasbg.create_text(375,140,  text='Método Aritmético:', font=normal_font, fill='white')
+        lma = canvasbg.create_text(580,140,  text=f'Pf= {int(ma)} habitantes', font=bold_font, fill='white')
+        Lbl1 = canvasbg.create_text(390,165,  text='Método Interés Simple:', font=normal_font, fill='white')
+        lmi = canvasbg.create_text(580,165,  text=f'Pf= {int(mi)} habitantes', font=bold_font, fill='white')
+        Lbl1 = canvasbg.create_text(380,190,  text='Método Geométrico:', font=normal_font, fill='white')
+        lmg = canvasbg.create_text(580,190,  text=f'Pf= {int(mg)} habitantes', font=bold_font, fill='white')
+
+
+        lPf = canvasbg.create_text(380,230,  text=f'Pf= {int(Pf)} habitantes', font=bold_font, fill='white')
         btnGrafica = Button(root, text="Abrir Gráfica", width=20, command=AbrirGrafica)
         btnGrafica.place(x=500, y=220)
 
-        lDot = Label(root, text=f'Dotación', font='Arial 13')
-        lDot.place(x=310, y=280)
+        lDot = canvasbg.create_text(345,290,  text='Dotación:', font=bold_font, fill='white')
         global eDot
         eDot = Entry(root, width=10)
         eDot.place(x=400, y=280)
@@ -204,10 +226,8 @@ def EnterNumData():
     numData = int(e_data.get())
     if(e_tiempo.get()==''):
         messagebox.showinfo(title='Tiempo', message='Recuerda colocar un periodo antes de presionar el botón calcular')
-    label_anio = Label(root, text='Año', font='Arial 13')
-    label_anio.place(x=30, y=100)
-    label_poblacion = Label(root, text='Población',font='Arial 13')
-    label_poblacion.place(x=145, y=100)
+    label_anio = canvasbg.create_text(50,110,  text='Año', font=bold_font, fill='white')
+    label_anio = canvasbg.create_text(180,110,  text='Población', font=bold_font, fill='white')
     ejey=130
 
     
@@ -235,17 +255,18 @@ def EnterNumData():
             refLbls.append(btnCalcular)
             
 
-l_datos = Label(root, text='¿Cuántos datos tiene?')
-l_datos.place(x=150,y=25)
+# l_datos = Label(root, text='¿Cuántos datos tiene?')
+# l_datos.place(x=150,y=25)
+l_datos = canvasbg.create_text(200,35,  text='¿Cuántos datos tiene?', font=bold_font, fill='white')
 e_data=Entry(root, width=20)
 e_data.place(x=300, y=25)
 botonGenerar = Button(root, text="Generar Espacios", command=EnterNumData)
 botonGenerar.place(x=450, y=25)
+# botonCanva = canvasbg.create_window(450,25, window=botonGenerar)
 
-l_tiempo = Label(root, text='Tiempo')
-l_tiempo.place(x=150, y=50)
-l_tiempo2 = Label(root, text='años')
-l_tiempo2.place(x=370, y=55)
+
+l_tiempo = canvasbg.create_text(245,60,  text='Tiempo', font=bold_font, fill='white')
+l_tiempo2 = canvasbg.create_text(400,60,  text='años', font=normal_font, fill='white')
 e_tiempo=Entry(root, width=10)
 e_tiempo.place(x=300, y=50)
 
