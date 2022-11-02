@@ -439,6 +439,29 @@ def PrimeraTabla():
         qls22.append(qlo2)
     LlenarColumna(qls12,10,12)
     LlenarColumna(qls22,10,17)
+    
+    # hf-m
+    hfm=[]
+    hfm2=[]
+    for i in range(4):
+        if i==0:
+            hfmv = round(-(kTramo1[i]*(abs(qls12[i])**1.852)),2)
+            hfm2v = round(kTramo2[i]*(abs(qls22[i])**1.852),2)
+        elif i==3:
+            hfmv = round(-(kTramo1[i]*(abs(qls12[i])**1.852)),2)
+            hfm2v = round(kTramo2[i]*(abs(qls22[i])**1.852),2)
+        else:
+            hfmv = round(kTramo1[i]*(abs(qls12[i])**1.852),2)
+            hfm2v = round(-kTramo2[i]*(abs(qls22[i])**1.852),2)
+        hfm.append(hfmv)
+        hfm2.append(hfm2v)
+    LlenarColumna(hfm,11,12)
+    LlenarColumna(hfm2,11,17)
+
+    lbl = Label(second_frame, text=round(sum(hfm),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=11, row=16, sticky=(W,N,E,S))
+    lbl = Label(second_frame, text=round(sum(hfm2),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=11, row=21, sticky=(W,N,E,S))
 
 def GuardarDiametrosMateriales():
     for entry in entriesDiametros1:
