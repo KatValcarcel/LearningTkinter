@@ -36,19 +36,6 @@ root.iconbitmap(iconPath)
 root.geometry('1080x450+450+150')
 root.state('zoomed')
 
-m3=0.0
-o3=0.0
-q1=0.0
-q5=0.0
-q8=0.0
-s3=0.0
-s10=0.0
-p7=0.0
-q13=0.0
-m9=0.0
-n10=0.0
-m6=0.0
-
 tramo1_km=[]
 tramo2_km=[]
 tramo1_diametros=[]
@@ -123,6 +110,8 @@ encabezado.configure("encabezado.TLabel", font='arial 10 bold', width='9', ancho
 
 celda=Style()
 celda.configure("celda.TLabel", font='arial 10',width='9', anchor='E')
+celdaroja=Style()
+celdaroja.configure("celdaroja.TLabel", font='arial 10', foreground='red', width='9', anchor='E')
 
 boton =Style()
 boton.configure('Boton.TButton', font='arial 10', width='9', background='#003366', foreground='black', refiel='flat')
@@ -158,27 +147,42 @@ def llenarEntradas():
 
 # GRAFICO
 def DatosGrafico():
+    global m9
     m9=float(e_m9.get())
+    global m3
     m3=float(e_m3.get())
+    global o3
     o3=float(e_o3.get())
+    global o5
     o5=float(e_o5.get())
+    global p7
     p7=float(e_p7.get())
+    global q1
     q1=float(e_q1.get())
+    global s3
     s3=float(e_s3.get())
+    global q5
     q5=float(e_q5.get())
+    global q8
     q8=float(e_q8.get())
+    global s10
     s10=float(e_s10.get())
+    global q13
     q13=float(e_q13.get())
 
+    global m6
     m6=round(m3-(o5),2)
     lblm6 = Label(canvasgrafico, text=m6, font='Arial 8', foreground='red', background='white')
     lblm6.place(x=88, y=100)
+    global n10
     n10=round(m6+m9,2)
     lbln10 = Label(canvasgrafico, text=n10, font='Arial 8', foreground='red', background='white')
     lbln10.place(x=135, y=170)
+    global s6
     s6=round(s3-q5,2)
     lbls6 = Label(canvasgrafico, text=s6, font='Arial 8', foreground='red', background='white')
     lbls6.place(x=280, y=100)
+    global r10
     r10=round(s10+s6,2)
     lbls6 = Label(canvasgrafico, text=r10, font='Arial 8', foreground='red', background='white')
     lbls6.place(x=230, y=175)
@@ -322,11 +326,10 @@ FA_diametro = Entry(second_frame,width='8')
 FA_diametro.grid(column=10, row=5)
 entriesDiametros2.append(FA_diametro)
 
-# def ObtenerEntradas(entradas, fila, columna):
-#     for entry in entradas:
-#         fila+=1
+
 
 def PrimeraTabla():  
+    DatosGrafico()
     encabezados=['TRAMO','L-Km','D-pulg','C','K','Q-l/s','hf','hf/Q']
     GenerarEncabezados(encabezados, 0, 11)   
     FAlbl2 = Label(second_frame, text=f'{chr(916)} Q-l/s', style='encabezado.TLabel')
@@ -334,21 +337,76 @@ def PrimeraTabla():
     encabezados2=['Q-l/s','hf-m']
     GenerarEncabezados(encabezados2,10,11)
     GenerarColumnaTramo1(0,12)
+    GenerarColumnaTramo2(0,17)
 
     # graficar km, pulgadas, material
     LlenarColumna(tramo1_km,1,12)
     LlenarColumna(tramo1_diametros,2,12)
     LlenarColumna(tramo1_materiales,3,12)
+    LlenarColumna(tramo2_km,1,17)
+    LlenarColumna(tramo2_diametros,2,17)
+    LlenarColumna(tramo2_materiales,3,17)
 
     kTramo1=[]
-    qls=[]
+    kTramo2=[]
     for i in range(4):
         k=round(((10**7)*tramo1_km[i]/(5.813*(tramo1_materiales[i]**1.852)*(tramo1_diametros[i]**4.87))),5)
         kTramo1.append(k)
-
-        # ql=round(,2)
-
+        k2=round(((10**7)*tramo2_km[i]/(5.813*(tramo2_materiales[i]**1.852)*(tramo2_diametros[i]**4.87))),5)
+        kTramo2.append(k2)
     LlenarColumna(kTramo1,4,12)
+    LlenarColumna(kTramo2,4,17)
+    
+    qls1=[]
+    qls1.append(-o5)
+    qls1.append(m6)
+    qls1.append(n10)
+    qls1.append(p7)
+    LlenarColumna(qls1,5,12)
+    qls2=[]
+    qls2.append(-p7)
+    qls2.append(-r10)
+    qls2.append(-s6)
+    qls2.append(q5)
+    LlenarColumna(qls2,5,17)
+    
+    hf=[]
+    hf2=[]
+    for i in range(4):
+        if i==0:
+            h=round(-kTramo1[i]*(abs(qls1[i])**1.852),2)
+            h2=round(-kTramo2[i]*(abs(qls2[i])**1.852),2)
+        elif i==3:
+            h=round(kTramo1[i]*(abs(qls1[i])**1.852),2)
+            h2=round(kTramo2[i]*(abs(qls2[i])**1.852),2)
+        else:
+            h=round(kTramo1[i]*(abs(qls1[i])**1.852),2)
+            h2=round(-kTramo2[i]*(abs(qls2[i])**1.852),2)
+        hf.append(h)
+        hf2.append(h2)
+    LlenarColumna(hf,6,12)
+    LlenarColumna(hf2,6,17)
+    lbl = Label(second_frame, text=round(sum(hf),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=6, row=16, sticky=(W,N,E,S))
+    lbl2 = Label(second_frame, text=round(sum(hf2),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl2.grid(column=6, row=21, sticky=(W,N,E,S))
+
+    hfq=[]
+    hfq2=[]
+    for i in range(4):
+        hfsq=round(hf[i]/qls1[i],2)
+        hfq.append(hfsq)
+        hfsq2=round(hf2[i]/qls2[i],2)
+        hfq2.append(hfsq2)
+    LlenarColumna(hfq,7,12)
+    LlenarColumna(hfq2,7,17)
+
+    lbl = Label(second_frame, text=round(sum(hfq),2), style='celda.TLabel', font='arial 11 bold')
+    lbl.grid(column=7, row=16, sticky=(W,N,E,S))
+    lb2 = Label(second_frame, text=round(sum(hfq2),2), style='celda.TLabel', font='arial 11 bold')
+    lb2.grid(column=7, row=21, sticky=(W,N,E,S))
+
+
 
 def GuardarDiametrosMateriales():
     for entry in entriesDiametros1:
@@ -380,11 +438,10 @@ def ToKm():
         lbl.grid(column=2, row=rowinit) 
         kmlbl.append(lbl)
         rowinit+=1
-    print(f'km1:{tramo1_km}')
 
     rowinit=2
     for entry in entriesMetro2:
-        km=round(float(entry.get())/1000,2)
+        km=round(float(entry.get())/1000,3)
         tramo2_km.append(km)
         lbl = Label(second_frame, text=km, style='celda.TLabel')
         lbl.grid(column=8, row=rowinit)
@@ -392,7 +449,6 @@ def ToKm():
         rowinit+=1
 
     GuardarDiametrosMateriales()
-    DatosGrafico()
     
     
 def Calcular(*args):
