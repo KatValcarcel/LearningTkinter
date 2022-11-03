@@ -34,8 +34,8 @@ root=Tk()
 root.title('Hardy Cross')
 iconPath = resource_path('usmp.ico')
 root.iconbitmap(iconPath)
-root.geometry('1080x450+450+150')
-root.state('zoomed')
+root.geometry('1080x500+450+150')
+# root.state('zoomed')
 
 tramo1_km=[]
 tramo2_km=[]
@@ -880,7 +880,7 @@ def ToKm():
     
     
 def Calcular(*args):
-    llenarEntradas()
+    # llenarEntradas()
     ToKm()
     PrimeraTabla()
     SegundaTabla()
