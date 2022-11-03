@@ -114,9 +114,9 @@ celda.configure("celda.TLabel", font='arial 10',width='9', anchor='E')
 celdaroja=Style()
 celdaroja.configure("celdaroja.TLabel", font='arial 10', foreground='red', width='9', anchor='E')
 
-boton =Style()
-boton.configure('Boton.TButton', font='arial 10', width='9', background='#003366', foreground='black', refiel='flat')
-boton.map('Boton.TButton', background=[("active","#001933")], foreground=[('active','blCK')])
+# boton =Style()
+# boton.configure('Boton.TButton', font='arial 10', width='9', background='#003366', foreground='black', refiel='flat')
+# boton.map('Boton.TButton', background=[("active","#001933")], foreground=[('active','blCK')])
 
 
 
@@ -216,8 +216,8 @@ def LlenarColumna(valores:list,columna:int,fila:int):
 
 # TRAMO 1
 
-tramo1lbl = Label(second_frame, text='1 Tramo', style='encabezado.TLabel')
-tramo1lbl.grid(column=0, row=0, columnspan=4, sticky=(W,N,E,S))
+tramo1lbl = Label(second_frame, text='1 TRAMO', style='encabezado.TLabel')
+tramo1lbl.grid(column=0, row=0, columnspan=5, sticky=(W,N,E,S))
 
 longlbl1 = Label(second_frame, text='Longitud', style='encabezado.TLabel')
 longlbl1.grid(column=0, row=1, sticky=(W,N,E,S))
@@ -271,8 +271,8 @@ DA_diametro.grid(column=4, row=5)
 entriesDiametros1.append(DA_diametro)
 
 # TRAMO 2
-tramo2lbl = Label(second_frame, text='2 Tramo', style='encabezado.TLabel')
-tramo2lbl.grid(column=6, row=0, columnspan=4)
+tramo2lbl = Label(second_frame, text='2 TRAMO', style='encabezado.TLabel')
+tramo2lbl.grid(column=6, row=0, columnspan=5, sticky=(W,N,E,S))
 
 longlbl2 = Label(second_frame, text='Longitud', style='encabezado.TLabel')
 longlbl2.grid(column=6, row=1, sticky=(W,N,E,S))
@@ -349,6 +349,8 @@ def PrimeraTabla():
     LlenarColumna(tramo2_materiales,3,17)
 
     # K
+    global kTramo1
+    global kTramo2
     kTramo1=[]
     kTramo2=[]
     for i in range(4):
@@ -424,6 +426,8 @@ def PrimeraTabla():
     lblvarql.grid(column=9, row=15,  sticky=(W,N,E,S))
 
     # qls
+    global qls12
+    global qls22
     qls12=[]
     qls22=[]
     for i in range(4):
@@ -442,6 +446,8 @@ def PrimeraTabla():
     LlenarColumna(qls22,10,17)
     
     # hf-m
+    global hfm
+    global hfm2
     hfm=[]
     hfm2=[]
     for i in range(4):
@@ -465,14 +471,168 @@ def PrimeraTabla():
     lbl.grid(column=11, row=21, sticky=(W,N,E,S))
 
 def SegundaTabla():
-    encabezados=['TRAMO','L-Km','D-pulg','C','K','Q-l/s','hf','hf/Q']
-    GenerarEncabezados(encabezados, 0, 22)   
+    encabezados=['TRAMO','hf/Q']
+    GenerarEncabezados(encabezados, 0, 22)     
     FAlbl2 = Label(second_frame, text=f'{chr(916)} Q-l/s', style='encabezado.TLabel')
-    FAlbl2.grid(column=8, row=11, columnspan=2, sticky=(W,N,E,S), pady=(30, 0))    
-    encabezados2=['Q-l/s','hf-m']
-    GenerarEncabezados(encabezados2,10,11)
+    FAlbl2.grid(column=2, row=22, columnspan=2, sticky=(W,N,E,S), pady=(30, 0))    
+    encabezados2=['Q-l/s','hf', 'hf/Q']
+    GenerarEncabezados(encabezados2,4,22)
+    FAlbl2 = Label(second_frame, text=f'{chr(916)} Q-l/s', style='encabezado.TLabel')
+    FAlbl2.grid(column=7, row=22, columnspan=2, sticky=(W,N,E,S), pady=(30, 0)) 
+    GenerarEncabezados(encabezados2,9,22)
     GenerarColumnaTramo1(0,23)
     GenerarColumnaTramo2(0,28)
+
+    # hf/q 
+    hfq=[]
+    hfq2=[]
+    for i in range(4):
+        hfqdata=round(hfm[i]/qls12[i],2)
+        hfq.append(hfqdata)
+        hfqdata2=round(hfm2[i]/qls22[i],2)
+        hfq2.append(hfqdata2)
+    LlenarColumna(hfq,1,23)
+    LlenarColumna(hfq2,1,28)
+    lbl = Label(second_frame, text=round(sum(hfq),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=1, row=27, sticky=(W,N,E,S))
+    lbl = Label(second_frame, text=round(sum(hfq2),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=1, row=32, sticky=(W,N,E,S))
+
+    # ΔQ-l/s	
+    varql=round(-(sum(hfm)/(1.852*sum(hfq))),2)
+    lblvarql=Label(second_frame,text=varql,style='celda.TLabel')
+    lblvarql.grid(column=2, row=23, rowspan=4, sticky=(W,N,E,S))
+    lblvarql=Label(second_frame,text=-varql,style='celda.TLabel')
+    lblvarql.grid(column=3, row=28, sticky=(W,N,E,S))
+
+    varql2=round(-(sum(hfm2)/(1.852*sum(hfq2))),2)
+    lblvarql2=Label(second_frame,text=varql2,style='celda.TLabel')
+    lblvarql2.grid(column=2, row=28, rowspan=4, sticky=(W,N,E,S))
+    lblvarql=Label(second_frame,text=-varql2,style='celda.TLabel')
+    lblvarql.grid(column=3, row=26,  sticky=(W,N,E,S))
+
+    # q-l/s 
+    qls=[]
+    qls2=[]
+    for i in range(4):
+        if i==0:
+            qlsdata=round(qls12[i]+varql,2)
+            qlsdata2=round(qls22[i]+(varql2+-varql),2)
+        elif i==3:
+            qlsdata=round(qls12[i]+(varql+-varql2),2)
+            qlsdata2=round(qls22[i]+varql2,2)
+        else:
+            qlsdata=round(qls12[i]+varql,2)
+            qlsdata2=round(qls22[i]+varql2,2)
+        qls.append(qlsdata)
+        qls2.append(qlsdata2)
+    LlenarColumna(qls,4,23)
+    LlenarColumna(qls2,4,28)
+
+    # hf 
+    hf=[]
+    hf2=[]
+    for i in range(4):
+        if i==0:
+            hfmv = round(-(kTramo1[i]*(abs(qls[i])**1.852)),2)
+            hfm2v = round(kTramo2[i]*(abs(qls2[i])**1.852),2)
+        elif i==3:
+            hfmv = round(-(kTramo1[i]*(abs(qls[i])**1.852)),2)
+            hfm2v = round(kTramo2[i]*(abs(qls2[i])**1.852),2)
+        else:
+            hfmv = round(kTramo1[i]*(abs(qls[i])**1.852),2)
+            hfm2v = round(-kTramo2[i]*(abs(qls2[i])**1.852),2)
+        hf.append(hfmv)
+        hf2.append(hfm2v)
+    LlenarColumna(hf,5,23)
+    LlenarColumna(hf2,5,28)
+    lbl = Label(second_frame, text=round(sum(hf),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=5, row=27, sticky=(W,N,E,S))
+    lbl = Label(second_frame, text=round(sum(hf2),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=5, row=32, sticky=(W,N,E,S))
+
+    # hf/Q 
+    hfq=[]
+    hfq2=[]
+    for i in range(4):
+        hfqdata=round(hf[i]/qls[i],2)
+        hfq.append(hfqdata)
+        hfqdata2=round(hf2[i]/qls2[i],2)
+        hfq2.append(hfqdata2)
+    LlenarColumna(hfq,6,23)
+    LlenarColumna(hfq2,6,28)
+    lbl = Label(second_frame, text=round(sum(hfq),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=6, row=27, sticky=(W,N,E,S))
+    lbl = Label(second_frame, text=round(sum(hfq2),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=6, row=32, sticky=(W,N,E,S))
+
+    # ΔQ-l/s	
+    varql=round(-(sum(hf)/(1.852*sum(hfq))),2)
+    lblvarql=Label(second_frame,text=varql,style='celda.TLabel')
+    lblvarql.grid(column=7, row=23, rowspan=4, sticky=(W,N,E,S))
+    lblvarql=Label(second_frame,text=-varql,style='celda.TLabel')
+    lblvarql.grid(column=8, row=28, sticky=(W,N,E,S))
+
+    varql2=round(-(sum(hf2)/(1.852*sum(hfq2))),2)
+    lblvarql2=Label(second_frame,text=varql2,style='celda.TLabel')
+    lblvarql2.grid(column=7, row=28, rowspan=4, sticky=(W,N,E,S))
+    lblvarql=Label(second_frame,text=-varql2,style='celda.TLabel')
+    lblvarql.grid(column=8, row=26,  sticky=(W,N,E,S))
+
+    # q-l/s 
+    qls13=[]
+    qls23=[]
+    for i in range(4):
+        if i==0:
+            qlsdata=round(qls[i]+varql,2)
+            qlsdata2=round(qls2[i]+(varql2+-varql),2)
+        elif i==3:
+            qlsdata=round(qls[i]+(varql+-varql2),2)
+            qlsdata2=round(qls2[i]+varql2,2)
+        else:
+            qlsdata=round(qls[i]+varql,2)
+            qlsdata2=round(qls2[i]+varql2,2)
+        qls13.append(qlsdata)
+        qls23.append(qlsdata2)
+    LlenarColumna(qls13,9,23)
+    LlenarColumna(qls23,9,28)
+
+    # hf 
+    hf=[]
+    hf2=[]
+    for i in range(4):
+        if i==0:
+            hfmv = round(-(kTramo1[i]*(abs(qls13[i])**1.852)),2)
+            hfm2v = round(kTramo2[i]*(abs(qls23[i])**1.852),2)
+        elif i==3:
+            hfmv = round(-(kTramo1[i]*(abs(qls13[i])**1.852)),2)
+            hfm2v = round(kTramo2[i]*(abs(qls23[i])**1.852),2)
+        else:
+            hfmv = round(kTramo1[i]*(abs(qls13[i])**1.852),2)
+            hfm2v = round(-kTramo2[i]*(abs(qls23[i])**1.852),2)
+        hf.append(hfmv)
+        hf2.append(hfm2v)
+    LlenarColumna(hf,10,23)
+    LlenarColumna(hf2,10,28)
+    lbl = Label(second_frame, text=round(sum(hf),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=10, row=27, sticky=(W,N,E,S))
+    lbl = Label(second_frame, text=round(sum(hf2),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=10, row=32, sticky=(W,N,E,S))
+
+    # hf/Q 
+    hfq=[]
+    hfq2=[]
+    for i in range(4):
+        hfqdata=round(hf[i]/qls[i],2)
+        hfq.append(hfqdata)
+        hfqdata2=round(hf2[i]/qls2[i],2)
+        hfq2.append(hfqdata2)
+    LlenarColumna(hfq,11,23)
+    LlenarColumna(hfq2,11,28)
+    lbl = Label(second_frame, text=round(sum(hfq),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=11, row=27, sticky=(W,N,E,S))
+    lbl = Label(second_frame, text=round(sum(hfq2),2), style='celdaroja.TLabel', font='arial 11 bold')
+    lbl.grid(column=11, row=32, sticky=(W,N,E,S))
 
 def GuardarDiametrosMateriales():
     for entry in entriesDiametros1:
@@ -523,7 +683,7 @@ def Calcular(*args):
     PrimeraTabla()
     SegundaTabla()
 # CALCULAR
-btnCalcular = Button(second_frame, text='Calcular', style='Boton.TButton', command=Calcular)
+btnCalcular = Button(second_frame, text='Calcular', command=Calcular)
 btnCalcular.grid(column=5,row=8, sticky=(W,N,E,S), pady=(20,0))
 
 # keyPress Enter 
