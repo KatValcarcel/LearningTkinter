@@ -880,7 +880,7 @@ def ToKm():
     
     
 def Calcular(*args):
-    # llenarEntradas()
+    llenarEntradas()
     ToKm()
     PrimeraTabla()
     SegundaTabla()
