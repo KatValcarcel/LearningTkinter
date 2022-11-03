@@ -740,6 +740,8 @@ def TerceraTabla():
 
     # PARTE 2
     # q-l/s 
+    global qls12
+    global qls22
     qls12=[]
     qls22=[]
     for i in range(4):
@@ -758,6 +760,8 @@ def TerceraTabla():
     LlenarColumna(qls22,8,39)
 
     # hf 
+    global hft32 
+    global hf2t32
     hft32=[]
     hf2t32=[]
     for i in range(4):
@@ -814,6 +818,22 @@ def TerceraTabla():
     lblvarql2.grid(column=11, row=39, rowspan=4, sticky=(W,N,E,S))
     lblvarql=Label(second_frame,text=-varql2,style='celda.TLabel')
     lblvarql.grid(column=12, row=37,  sticky=(W,N,E,S))
+
+    CuartaTabla()
+
+def CuartaTabla():   
+    encabezados=['TRAMO','Q-l/s','hf']
+    GenerarEncabezados(encabezados,0,45)
+    GenerarColumnaTramo1(0,46)
+    GenerarColumnaTramo2(0,50)
+
+    # q-l/s 
+    LlenarColumna(qls12,1,46)
+    LlenarColumna(qls22,1,50)
+
+    # hf 
+    LlenarColumna(hft32,2,46)
+    LlenarColumna(hf2t32,2,50)
 
 
 def GuardarDiametrosMateriales():
