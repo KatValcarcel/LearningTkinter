@@ -51,6 +51,7 @@ entriesMateriales1=[]
 entriesMateriales2=[]
 kmlbl=[]
 
+
 # main frame
 main_frame=Frame(root)
 main_frame.pack(fill=BOTH, expand=1)
@@ -67,6 +68,12 @@ my_canvas.bind('<Configure>',lambda e:my_canvas.configure(scrollregion=my_canvas
 second_frame=Frame(my_canvas)
 # Add a new frame to a window in the canvas
 my_canvas.create_window((0,0),window=second_frame, anchor='nw')
+
+bg=ImageTk.PhotoImage(Image.open(resource_path('FIA.jpg')))
+canvasbg=Canvas(second_frame, width=800, height=500)
+canvasbg.place(x=0, y=0, relwidth=1, relheight=1)
+canvasbg.create_image(0,0, image=bg, anchor='nw')
+
 
 canvasgrafico = Canvas(second_frame, bg='white')
 canvasgrafico.grid(column=13,row=0, rowspan=13, columnspan=7, padx=(20,0))

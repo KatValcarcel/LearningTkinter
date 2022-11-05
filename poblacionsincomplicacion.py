@@ -28,6 +28,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 # export: auto-py-to-exe
 # pyinstaller --onefile --noconsole --clean --icon='usmp.ico' --add-data 'usmp.ico;.' --add-data 'FIA.jpg;.' Calculadora.py
+
 root=Tk()
 root.title('Población futura')
 iconPath = resource_path('usmp.ico')
