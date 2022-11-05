@@ -105,9 +105,14 @@ e_q8.place(x=205, y=135)
 e_q13=Entry(canvasgrafico,width='5')
 e_q13.place(x=225, y=215)
 
+boton = Style()
+boton.configure('TButton', font =
+               ('arial', 12, 'bold'), foreground='#bd1714')
+boton.map('TButton', foreground = [('active', '!disabled', 'green')],
+                     background = [('active', 'black')])
 
 encabezado = Style()
-encabezado.configure("encabezado.TLabel", font='arial 10 bold', width='9', anchor='E')
+encabezado.configure("encabezado.TLabel", font='arial 12 bold', width='9', anchor='E')
 
 celda=Style()
 celda.configure("celda.TLabel", font='arial 10',width='9', anchor='E')
@@ -834,6 +839,9 @@ def CuartaTabla():
     # hf 
     LlenarColumna(hft32,2,46)
     LlenarColumna(hf2t32,2,50)
+
+    ultimaFila= Label(second_frame, text='----END----', font='Arial 12', foreground='white')
+    ultimaFila.grid(column=9, row=54, sticky=(W,N,E,S))
 
 
 def GuardarDiametrosMateriales():
