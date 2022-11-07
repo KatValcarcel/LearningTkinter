@@ -4,7 +4,6 @@ import tkinter
 from tkinter import ttk
 from tkinter import *
 from tkinter import font
-# from tkinter.tix import ButtonBox
 from tkinter.ttk import *
 from turtle import color, width
 from tkinter import messagebox
@@ -29,12 +28,13 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
     
 # export: auto-py-to-exe
+  
 
 root=Tk()
 root.title('Hardy Cross')
 iconPath = resource_path('usmp.ico')
 root.iconbitmap(iconPath)
-root.geometry('1080x500+450+150')
+root.geometry('1080x800+450+150')
 # root.state('zoomed')
 
 tramo1_km=[]
@@ -55,6 +55,7 @@ kmlbl=[]
 # main frame
 main_frame=Frame(root)
 main_frame.pack(fill=BOTH, expand=1)
+
 # Canvas 
 my_canvas=Canvas(main_frame)
 my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
@@ -63,16 +64,19 @@ my_scrollbar=Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
 my_scrollbar.pack(side=RIGHT, fill=Y)
 # Configure the canvas 
 my_canvas.configure(yscrollcommand=my_scrollbar.set)
-my_canvas.bind('<Configure>',lambda e:my_canvas.configure(scrollregion=my_canvas.bbox('all')))
+my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all")))
+def _on_mouse_wheel(event):
+    my_canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
+my_canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
 # Another frame inside canvas
 second_frame=Frame(my_canvas)
 # Add a new frame to a window in the canvas
 my_canvas.create_window((0,0),window=second_frame, anchor='nw')
 
-bg=ImageTk.PhotoImage(Image.open(resource_path('FIA.jpg')))
-canvasbg=Canvas(second_frame, width=800, height=500)
-canvasbg.place(x=0, y=0, relwidth=1, relheight=1)
-canvasbg.create_image(0,0, image=bg, anchor='nw')
+# bg=ImageTk.PhotoImage(Image.open(resource_path('FIA2.jpg')))
+# canvasbg=Canvas(second_frame, width=800, height=500)
+# canvasbg.place(x=0, y=0)
+# canvasbg.create_image(0,0, image=bg, anchor='nw')
 
 
 canvasgrafico = Canvas(second_frame, bg='white')
@@ -122,9 +126,9 @@ encabezado = Style()
 encabezado.configure("encabezado.TLabel", font='arial 12 bold', width='9', anchor='E')
 
 celda=Style()
-celda.configure("celda.TLabel", font='arial 10',width='9', anchor='E')
+celda.configure("celda.TLabel", font='arial 10',width='9', anchor='E', borderwidth=1, relief="solid")
 celdaroja=Style()
-celdaroja.configure("celdaroja.TLabel", font='arial 10', foreground='red', width='9', anchor='E')
+celdaroja.configure("celdaroja.TLabel", font='arial 10', foreground='red', width='9', anchor='E', borderwidth=2, relief="solid")
 
 # boton =Style()
 # boton.configure('Boton.TButton', font='arial 10', width='9', background='#003366', foreground='black', refiel='flat')
@@ -895,7 +899,7 @@ def ToKm():
     
     
 def Calcular(*args):
-    # llenarEntradas()
+    llenarEntradas()
     ToKm()
     PrimeraTabla()
     SegundaTabla()

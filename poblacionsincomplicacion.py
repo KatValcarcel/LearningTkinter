@@ -1,10 +1,8 @@
-from email.mime import image
 import tkinter
 from tkinter import ttk
 from tkinter import *
 from tkinter import font
 from tkinter import font as tkfont
-# from tkinter import font
 from tkinter.ttk import *
 from turtle import width
 from tkinter import messagebox
@@ -15,6 +13,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 import sys
 import os
+
 from PIL import ImageTk, Image
 # --inicio--
 def resource_path(relative_path):
@@ -52,7 +51,7 @@ poblaciones=[]
 refAnio=[]
 refPoblacion=[]
 refLbls=[]
-
+refLblsNew=[]
 
 def abrirMetodos():
     anioStr = list(map(str, anios))
@@ -96,7 +95,6 @@ def abrirMetodos():
 
     plt.show()
 
-
 def AbrirGrafica():
 
     anioStr = list(map(str, anios))
@@ -109,7 +107,6 @@ def AbrirGrafica():
     fig.suptitle(f'Población en {e_tiempo.get()} años')
     plt.show()
     # abrirMetodos()
-
 
 def CalcularQp():
     dotacion=int(eDot.get())
@@ -166,7 +163,12 @@ def geometrico():
     return Pf_mg
 
 def graficar():
-    # debería ser int Habitantes...
+
+    if(len(refLblsNew)!=0):
+        for ref in refLblsNew:
+            canvasbg.delete(ref)
+        refLblsNew.clear()
+
     try:
         ma = aritmetico()
         mi = interes()
@@ -180,16 +182,21 @@ def graficar():
         print(f'Poblacion: {poblaciones}')
         
 
-
         Lbl1 = canvasbg.create_text(375,140,  text='Método Aritmético:', font=normal_font, fill='white')
-        lma = canvasbg.create_text(580,140,  text=f'Pf= {int(ma)} habitantes', font=bold_font, fill='white')
+        lma = canvasbg.create_text(580,140,  text=f'Pf= {ma} habitantes', font=bold_font, fill='white')
+        refLblsNew.append(Lbl1)
         Lbl1 = canvasbg.create_text(390,165,  text='Método Interés Simple:', font=normal_font, fill='white')
-        lmi = canvasbg.create_text(580,165,  text=f'Pf= {int(mi)} habitantes', font=bold_font, fill='white')
+        lmi = canvasbg.create_text(580,165,  text=f'Pf= {mi} habitantes', font=bold_font, fill='white')
+        refLblsNew.append(Lbl1)
         Lbl1 = canvasbg.create_text(380,190,  text='Método Geométrico:', font=normal_font, fill='white')
-        lmg = canvasbg.create_text(580,190,  text=f'Pf= {int(mg)} habitantes', font=bold_font, fill='white')
-
+        lmg = canvasbg.create_text(580,190,  text=f'Pf= {mg} habitantes', font=bold_font, fill='white')
+        refLblsNew.append(Lbl1)
+        refLblsNew.append(lma)
+        refLblsNew.append(lmi)
+        refLblsNew.append(lmg)
 
         lPf = canvasbg.create_text(380,230,  text=f'Pf= {int(Pf)} habitantes', font=bold_font, fill='white')
+        refLblsNew.append(lPf)
         btnGrafica = Button(root, text="Abrir Gráfica", width=20, command=AbrirGrafica)
         btnGrafica.place(x=500, y=220)
 
@@ -256,14 +263,11 @@ def EnterNumData():
             refLbls.append(btnCalcular)
             
 
-# l_datos = Label(root, text='¿Cuántos datos tiene?')
-# l_datos.place(x=150,y=25)
 l_datos = canvasbg.create_text(200,35,  text='¿Cuántos datos tiene?', font=bold_font, fill='white')
 e_data=Entry(root, width=20)
 e_data.place(x=300, y=25)
 botonGenerar = Button(root, text="Generar Espacios", command=EnterNumData)
 botonGenerar.place(x=450, y=25)
-# botonCanva = canvasbg.create_window(450,25, window=botonGenerar)
 
 
 l_tiempo = canvasbg.create_text(245,60,  text='Tiempo', font=bold_font, fill='white')
