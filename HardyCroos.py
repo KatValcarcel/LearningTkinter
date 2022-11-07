@@ -1,26 +1,15 @@
-from ast import main
-from textwrap import fill
+
 import tkinter
-from tkinter import ttk
+# from tkinter import ttk
 from tkinter import *
-from tkinter import font
 from tkinter.ttk import *
-from turtle import color, width
-from tkinter import messagebox
-import math
-from math import ceil
-from warnings import catch_warnings
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import numpy as np
 import sys
 import os
 from PIL import ImageTk, Image
+
 # --inicio--
 def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
@@ -34,7 +23,7 @@ root=Tk()
 root.title('Hardy Cross')
 iconPath = resource_path('usmp.ico')
 root.iconbitmap(iconPath)
-root.geometry('1080x800+450+150')
+root.geometry('1080x500+300+100')
 # root.state('zoomed')
 
 tramo1_km=[]
@@ -59,15 +48,19 @@ main_frame.pack(fill=BOTH, expand=1)
 # Canvas 
 my_canvas=Canvas(main_frame)
 my_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
 # Add ScrollBar to canvas 
 my_scrollbar=Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
 my_scrollbar.pack(side=RIGHT, fill=Y)
+
 # Configure the canvas 
 my_canvas.configure(yscrollcommand=my_scrollbar.set)
 my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all")))
-def _on_mouse_wheel(event):
+
+def mouse_wheel(event):
     my_canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
-my_canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
+my_canvas.bind_all("<MouseWheel>", mouse_wheel)
+
 # Another frame inside canvas
 second_frame=Frame(my_canvas)
 # Add a new frame to a window in the canvas
@@ -78,7 +71,7 @@ my_canvas.create_window((0,0),window=second_frame, anchor='nw')
 # canvasbg.place(x=0, y=0)
 # canvasbg.create_image(0,0, image=bg, anchor='nw')
 
-
+# Grafico
 canvasgrafico = Canvas(second_frame, bg='white')
 canvasgrafico.grid(column=13,row=0, rowspan=13, columnspan=7, padx=(20,0))
 canvasgrafico.create_polygon(105, 150, 135, 80, 255, 80, 285, 150,195,190, outline = 'blue', fill='white') 
@@ -137,6 +130,31 @@ celdaroja.configure("celdaroja.TLabel", font='arial 10', foreground='red', width
 
 
 def llenarEntradas():
+    if entriesMetro1[0].get()!='':
+        for entry in entriesDiametros1:
+            entry.delete(0, 'end')
+        for entry in entriesDiametros2:
+            entry.delete(0, 'end')
+        for entry in entriesMateriales1:
+            entry.delete(0, 'end')
+        for entry in entriesMateriales2:
+            entry.delete(0, 'end')
+        for entry in entriesMetro1:
+            entry.delete(0, 'end')
+        for entry in entriesMetro2:
+            entry.delete(0, 'end')
+        e_m9.delete(0,'end')
+        e_m3.delete(0,'end')
+        e_o3.delete(0,'end')
+        e_o5.delete(0,'end')
+        e_p7.delete(0,'end')
+        e_q1.delete(0,'end')
+        e_s3.delete(0,'end')
+        e_q5.delete(0,'end')
+        e_q8.delete(0,'end')
+        e_s10.delete(0,'end')
+        e_q13.delete(0,'end')
+
     for entry in entriesDiametros1:
         entry.insert(0,'4')
     for entry in entriesDiametros2:
@@ -854,7 +872,6 @@ def CuartaTabla():
     ultimaFila= Label(second_frame, text='----END----', font='Arial 12', foreground='white')
     ultimaFila.grid(column=9, row=54, sticky=(W,N,E,S))
 
-
 def GuardarDiametrosMateriales():
     for entry in entriesDiametros1:
         tramo1_diametros.append(float(entry.get()))
@@ -896,13 +913,13 @@ def ToKm():
         rowinit+=1
 
     GuardarDiametrosMateriales()
-    
-    
+       
 def Calcular(*args):
     llenarEntradas()
     ToKm()
     PrimeraTabla()
     SegundaTabla()
+    
 # CALCULAR
 btnCalcular = Button(second_frame, text='Calcular', command=Calcular)
 btnCalcular.grid(column=5,row=8, sticky=(W,N,E,S), pady=(20,0))
