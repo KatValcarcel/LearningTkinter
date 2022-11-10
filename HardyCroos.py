@@ -66,7 +66,7 @@ second_frame=Frame(my_canvas)
 # Add a new frame to a window in the canvas
 my_canvas.create_window((0,0),window=second_frame, anchor='nw')
 
-# bg=ImageTk.PhotoImage(Image.open(resource_path('FIA2.jpg')))
+bg=ImageTk.PhotoImage(Image.open(resource_path('FIA2.jpg')))
 # canvasbg=Canvas(second_frame, width=800, height=500)
 # canvasbg.place(x=0, y=0)
 # canvasbg.create_image(0,0, image=bg, anchor='nw')
@@ -84,6 +84,10 @@ canvasgrafico.create_line (255, 80, 285, 60, fill ='red')
 canvasgrafico.create_line (285, 150, 285, 175, fill ='red') 
 canvasgrafico.create_line (195, 190, 225, 150, fill ='red') 
 canvasgrafico.create_line (195, 190, 225, 215, fill ='red') 
+
+canvasimagen = Canvas(second_frame, bg='white')
+canvasimagen.grid(column=13,row=17, rowspan=27, columnspan=10, padx=(20,0))
+canvasimagen.create_image(0,0, image=bg, anchor='nw')
 
 # entradas
 e_m9=Entry(canvasgrafico,width='5')
