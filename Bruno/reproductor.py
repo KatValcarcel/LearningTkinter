@@ -42,7 +42,6 @@ def elegir_ver():
         ('all video format','.mp4'),
         ('all video format','.avi'),
         ('all video format','.mov'),
-        ('all video format','.mkv'),
     ])
     if len(video_path)>0:
         lblInfoPath.configure(text=video_path, foreground="blue")
